@@ -10,7 +10,7 @@ Two RovaAI suites were executed against Daraz.lk. Both runs reached 100% complet
 | Negative & Edge Case Scenarios | 20 Nov 2026 | 12 | 10 | 2 | 0 | 100% |
 | **Total** | | **22** | **20** | **2** | **0** | **100%** |
 
-The combined pass count is 20/22 (90.9%). The two tool-reported failures require qualification: the intended application behaviour could not be fully assessed because of a WAF interstitial and a CAPTCHA challenge.
+The combined tool-reported pass count is 20/22 (90.9%). The two failures in the Negative & Edge Case suite require qualification: the intended application behaviour could not be fully assessed because of a WAF interstitial and a CAPTCHA challenge.
 
 ## 2. Core Shopping Flow Validation
 
@@ -19,33 +19,25 @@ The combined pass count is 20/22 (90.9%). The two tool-reported failures require
 - Execution date: 21 November 2026.
 - Duration: 58 minutes 11 seconds.
 - Completion: 100%.
-- Result: 10 passed, 0 failed, 0 pending.
-- Pass rate: 100%.
+- Suite-level result: 10 passed, 0 failed, 0 pending.
+- Suite-level pass rate: 100%.
 
-| ID | Test goal | Result | Observation |
-|---|---|---|---|
-| CSF-01 | Homepage loads correctly | Passed | Homepage content, banners, navigation, search and icons were visible and usable. |
-| CSF-02 | Search keyword and filters | Passed | Search results and filter interaction worked in the observed run. |
-| CSF-03 | Sort options | Passed | Results reordered for selected sort options such as price and rating. |
-| CSF-04 | Product selection from search opens correct detail page | Passed | Selecting a search result opened its product detail page. |
-| CSF-05 | Product detail page shows essential information | Passed | Price, ratings, seller metrics, delivery/warranty and installment information were observed. |
-| CSF-06 | Cart while logged out triggers login modal | Passed | Logged-out cart action prompted authentication. |
-| CSF-07 | Login modal has authentication options | Passed | Phone/email and Google/Facebook sign-in options were displayed. |
-| CSF-08 | Category dropdown | Passed | Included in the complete run and marked passed by RovaAI. |
-| CSF-09 | PDP quantity selector | Passed | Included in the complete run and marked passed by RovaAI. |
-| CSF-10 | Responsive UI across viewports | Passed | Included in the complete run and marked passed by RovaAI. |
+The final run summary supplied from RovaAI confirms the aggregate result above. The per-goal result details from this specific run have not been independently transcribed in this report. Therefore, the table below records the test goals included in the suite, not a claim about each goal's individual result.
 
-### Individual result references
+| ID | Test goal | Expected behaviour |
+|---|---|---|
+| CSF-01 | Homepage loads correctly | Homepage renders primary content and navigation without a blocking error. |
+| CSF-02 | Search keyword and filters | Keyword search returns results and available filters can be applied. |
+| CSF-03 | Sort options | Selecting a sort option reorders the displayed results. |
+| CSF-04 | Product selection from search opens correct detail page | Selecting a result opens its corresponding product detail page. |
+| CSF-05 | Product detail page shows essential information | Product detail view presents key purchase information and product/seller details. |
+| CSF-06 | Cart while logged out triggers login modal | Attempting the cart action while logged out requests authentication. |
+| CSF-07 | Login modal has authentication options | Login prompt displays the available authentication methods. |
+| CSF-08 | Category dropdown | Category navigation can be opened and exposes category choices. |
+| CSF-09 | PDP quantity selector | Product detail quantity control allows a valid quantity selection. |
+| CSF-10 | Responsive UI across viewports | Key page content remains usable at the tested viewport sizes. |
 
-- [CSF-01](https://app.rova.qa/results/a84722bb-8a89-4c0c-b21f-896b2897e139)
-- [CSF-02](https://app.rova.qa/results/6e12eb71-e442-48cb-8018-67857f29ab3c)
-- [CSF-03](https://app.rova.qa/results/f6c502ed-014d-4b17-83a0-eb6ea372e41c)
-- [CSF-04](https://app.rova.qa/results/fb70191e-7a69-470e-ad50-a2a20742a0b8)
-- [CSF-05](https://app.rova.qa/results/04847d0b-356c-43a0-8860-676d5e23922b)
-- [CSF-06](https://app.rova.qa/results/f63e4e0c-51fd-4ea5-8013-5cc9b1d50b47)
-- [CSF-07](https://app.rova.qa/results/4597b396-7991-405c-be51-2f857c7857d0)
-
-The earlier historical run was incomplete (7 passed, 1 failed, 2 pending). The table above reports the later complete run, not the historical result.
+**Historical context:** an earlier Core suite run was incomplete (7 passed, 1 failed, 2 pending). That earlier run included a category-dropdown interaction issue and did not execute the final two goals. It is not used as the result of the later complete run.
 
 ## 3. Negative & Edge Case Scenarios
 
@@ -99,11 +91,8 @@ The WAF intercepted the test input before the intended application response coul
 
 The CAPTCHA prevented the automated browser from submitting the malformed identifier. The result does not establish that application-side input validation is absent or defective. A permitted manual validation check or test environment with CAPTCHA handling configured would be needed.
 
-### Historical CSF-08 result
-An earlier incomplete run marked category dropdown interaction as failed because the headless browser could not interact with the control. The later complete run marked CSF-08 passed. The latest complete run is the reported suite result; the earlier history is retained here for context.
-
 ## 5. Overall conclusion
 
-The Core Shopping Flow suite completed with 10/10 passed. The Negative & Edge Case suite completed with 10/12 passed and two automation/environment-blocked outcomes. Across both suites, 22/22 goals reached a terminal status, with 20 marked passed by RovaAI.
+The Core Shopping Flow suite completed with 10/10 goals passed at suite level. The Negative & Edge Case suite completed with 10/12 goals passed and two automation/environment-blocked outcomes. Across both suites, 22/22 goals reached a terminal status, with 20 marked passed by RovaAI.
 
 The results demonstrate meaningful workflow coverage and also show why test-result interpretation must go beyond the pass/fail label. No confirmed application defect is asserted from the two blocked checks.
