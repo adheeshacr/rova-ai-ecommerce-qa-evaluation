@@ -21,22 +21,22 @@ A practical QA portfolio project evaluating **RovaAI** using real e-commerce wor
 | Negative & Edge Case Scenarios | 12 | 10 | 2 | 0 | 100% |
 | **Total** | **22** | **20** | **2** | **0** | **100%** |
 
-**Interpretation matters:** the two goals marked Failed in the Negative & Edge Case suite were blocked by an Alibaba Cloud WAF interstitial and a slider CAPTCHA. They are recorded as tool-reported failures, but neither establishes a confirmed application defect. See the [execution report](04-test-execution/execution-report.md) and [limitations analysis](06-tool-evaluation/limitations-and-observations.md).
+**Interpretation matters:** the two goals marked Failed in the Negative & Edge Case suite were blocked by an Alibaba Cloud WAF interstitial and a slider CAPTCHA. They are recorded as tool-reported failures, but neither establishes a confirmed application defect.
 
 ## Repository guide
 
 - [Project overview](01-project-overview/project-overview.md): context, objectives, scope and approach.
 - [Test plan](02-test-planning/test-plan.md): strategy, environment, execution approach and risks.
 - [Test cases](03-test-design/test-cases.md): the 22 documented test goals and expected behaviours.
-- [Execution report](04-test-execution/execution-report.md): run references, results and detailed observations.
+- [Execution report](04-test-execution/execution-report.md): run references, results and analysis.
+- [Defect and investigation log](05-defect-management/observations-and-investigation.md): observations distinguished from confirmed defects.
 - [RovaAI evaluation](06-tool-evaluation/limitations-and-observations.md): platform observations and automation constraints.
+- [Evidence index](evidence/evidence-index.md): suite runs, available individual results and replay.
 
 ## Main execution evidence
 
 - [Core Shopping Flow – complete run](https://app.rova.qa/suites/runs/40b15ceb-bcee-4873-831a-29606391b785)
 - [Negative & Edge Case – complete run](https://app.rova.qa/suites/runs/02b1a04f-71b3-4cdf-ac8b-0e67f5620b13)
-
-Individual RovaAI result links are included in the execution report.
 
 ## Skills demonstrated
 
@@ -50,7 +50,7 @@ Individual RovaAI result links are included in the execution report.
 
 This is a black-box evaluation of selected Daraz.lk user-facing workflows, not a full security, API, performance, accessibility or production-readiness assessment. No checkout or payment was completed. Logged-out Add to Cart / Buy Now checks were limited to verifying the authentication prompt or redirect.
 
-Results are specific to the recorded test sessions and environment; they are not a guarantee of overall application quality.
+Results are specific to the recorded test sessions and environment; they are not a guarantee of overall application quality. No screenshots have been embedded yet; available RovaAI reports and replay links are indexed in the evidence file.
 
 ---
 *Prepared as a hands-on QA portfolio project. Test outcomes are reported as observed in the linked RovaAI runs.*
