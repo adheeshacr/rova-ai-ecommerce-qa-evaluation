@@ -10,7 +10,7 @@ A practical QA portfolio project evaluating **RovaAI** using real e-commerce wor
 | QA platform | [RovaAI](https://app.rova.qa/) |
 | Test environment | Staging Env (RovaAI project: Ecommerce WebApp) |
 | Scope | 3 suites, 32 distinct test goals |
-| Visible execution records | 23 (includes a duplicate Core category-dropdown execution) |
+| Visible execution records | 33 (includes a duplicate Core category-dropdown execution) |
 | Portfolio focus | Functional, negative, edge-case and workflow validation |
 | Execution window | 20–22 November 2026 |
 
