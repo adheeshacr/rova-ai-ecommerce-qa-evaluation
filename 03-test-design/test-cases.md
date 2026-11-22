@@ -13,7 +13,7 @@ The following test goals were configured in RovaAI. Expected behaviours below de
 | CSF-05 | Product detail page shows essential information | Product detail view presents key purchase information such as price and product/seller details. |
 | CSF-06 | Cart while logged out triggers login modal | Attempting the cart action while logged out requests authentication. |
 | CSF-07 | Login modal has authentication options | Login prompt displays the available authentication methods. |
-| CSF-08 | Category dropdown | Category navigation can be opened and exposes category choices. |
+| CSF-08 | Category navigation | The user can access category choices through the category-navigation component defined by the current UI requirements. The exact expected component (dropdown, menu or category tiles) must be confirmed before this is used as a stable regression test. |
 | CSF-09 | PDP quantity selector | Product detail quantity control allows a valid quantity selection. |
 | CSF-10 | Responsive UI across viewports | Key page content remains usable at the tested viewport sizes. |
 
@@ -34,8 +34,9 @@ The following test goals were configured in RovaAI. Expected behaviours below de
 | NEC-11 | Navigation to non-existent product URL | An invalid product URL produces an appropriate not-found experience. |
 | NEC-12 | Rapid repeated login submissions | Repeated rapid actions do not cause duplicate submission errors or an unstable page. |
 
-## Coverage notes
+## Coverage and traceability notes
 
-- CSF-08, CSF-09 and CSF-10 were not completed in the earlier historical Core suite run, but were included in the later complete run.
+- The earlier historical Core suite run was incomplete (7 passed, 1 failed, 2 pending). The later execution evidence includes a complete run, but its shared report lists the CSF-08 category-navigation goal twice with conflicting outcomes. Refer to the [execution report](../04-test-execution/execution-report.md) for the reconciliation.
 - NEC-03 is a UI-level robustness scenario, not a substitute for dedicated security testing.
 - NEC-10 is intentionally limited to authentication behaviour. No purchase or payment flow is performed.
+- Test-case expected behaviour should be based on an agreed requirement and the actual interface, not an assumed control label or layout.
