@@ -4,10 +4,11 @@
 
 A risk-focused, black-box functional testing approach was used. Test goals were written in natural language and executed through RovaAI against Daraz.lk.
 
-Two complementary suites were selected:
+Three complementary suites were selected:
 
 1. **Core Shopping Flow Validation** – positive and primary customer journey coverage.
 2. **Negative & Edge Case Scenarios** – invalid input, boundary, authentication and resilience-oriented checks.
+3. **Product Details & Product Selection** – product detail page content, variation selection, availability and navigation/refresh behaviour.
 
 ## 2. Coverage model
 
