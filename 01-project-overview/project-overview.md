@@ -31,6 +31,7 @@ The application was tested as a black box. Internal source code, service impleme
 - Search, filtering and sorting.
 - Product search-result navigation and product detail information.
 - Logged-out cart/purchase action authentication prompt.
+- Shopping cart and wishlist behaviour up to the authentication boundary (logged out).
 - Login form validation and incorrect-credential feedback.
 - Product quantity boundaries and stock constraints.
 - Invalid product URL handling.
@@ -40,6 +41,7 @@ The application was tested as a black box. Internal source code, service impleme
 ### Out of scope
 - Completing checkout or making a payment.
 - Full end-to-end order placement.
+- Signing in, creating accounts or testing cart and wishlist functionality that requires authentication.
 - Backend/API security verification or proof of SQL injection resistance.
 - Load, stress or performance testing.
 - Full cross-browser, device-lab or accessibility certification.
@@ -47,12 +49,12 @@ The application was tested as a black box. Internal source code, service impleme
 
 ## 5. Deliverables
 
-The repository documents the project approach, 42 test goals across four suites, execution results, evidence links, and an evaluation of the testing platform's observed limitations.
+The repository documents the project approach, 52 test goals across five executed suites (5 of 6 planned suites), execution results, evidence links, and an evaluation of the testing platform's observed limitations.
 
 ## 6. Success criteria
 
 - All selected test goals are represented in the test design.
-- All four suites reach 100% execution completion.
+- All five executed suites reach 100% execution completion.
 - Raw tool statuses are preserved.
 - Inconclusive outcomes are clearly separated from confirmed product defects.
 - Evidence links and run-level summaries are provided for review.

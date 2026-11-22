@@ -1,4 +1,4 @@
-# Test Design – 42 Test Goals
+# Test Design – 52 Test Goals
 
 The following test goals were configured in RovaAI. Expected behaviours below describe the intended validation; actual outcomes are recorded separately in the [execution report](../04-test-execution/execution-report.md).
 
@@ -89,6 +89,27 @@ The original goal and expected outcome are preserved above. The scenario did not
 
 These combinations behaved differently during manual verification (see the [execution report](../04-test-execution/execution-report.md)). In a future test-design revision, separate them into distinct test scenarios, each with its own expected result, so that a pass for one combination cannot be read as coverage of the other. This is a documentation recommendation only; the live RovaAI test goal has not been edited.
 
+## Suite E – Shopping Cart & Wishlist (10)
+
+Test goal titles and expected outcomes are recorded as configured in RovaAI. The suite scope excludes placing orders, making payments, creating accounts and bypassing login requirements. The live RovaAI suite has not been changed.
+
+| ID | Test goal | Expected behaviour (as configured in RovaAI) |
+|---|---|---|
+| SCW-01 | Add available product to cart | The available product is successfully added to the cart and appears as a cart line item. |
+| SCW-02 | Display correct cart item details | The cart displays the correct product name, image, selected variation, and price for the added item. |
+| SCW-03 | Increase cart item quantity | The cart item quantity increases by the expected amount and the line item remains present. |
+| SCW-04 | Decrease cart item quantity | The cart item quantity decreases by the expected amount, respecting any minimum quantity. |
+| SCW-05 | Update cart subtotal on quantity change | The cart subtotal recalculates correctly to reflect the changed quantity. |
+| SCW-06 | Remove product from cart | The product is removed from the cart and no longer appears as a cart line item. |
+| SCW-07 | Show empty-cart state after removal | The cart displays the appropriate empty-cart state after all products are removed. |
+| SCW-08 | Check wishlist action authentication requirement | The wishlist action is attempted without signing in; if authentication is required, it is recorded as blocked by the authentication requirement rather than bypassed. |
+| SCW-09 | View and remove wishlist product if unauthenticated | If the wishlist is accessible without signing in, the product can be viewed and removed; otherwise the attempt is recorded as blocked by authentication. |
+| SCW-10 | Navigate between product and cart pages | The user can navigate among product listings, product details, shopping cart, and wishlist without errors. |
+
+### Suite E – Authentication boundary
+
+On Daraz.lk, adding to the cart, viewing the cart, adding to the wishlist and viewing the wishlist all require a signed-in account. Because this project does not sign in or create accounts, SCW-02 to SCW-07 and the cart and wishlist parts of SCW-09 and SCW-10 cannot be fully exercised. Functional cart and wishlist behaviour beyond the login boundary would require an approved test account and a separate test design.
+
 ## Coverage and traceability notes
 
 - The earlier historical Core suite run was incomplete (7 passed, 1 failed, 2 pending). The later execution evidence includes a complete run, but its shared report lists the CSF-08 category-navigation goal twice with conflicting outcomes. Refer to the [execution report](../04-test-execution/execution-report.md) for the reconciliation.
@@ -96,4 +117,5 @@ These combinations behaved differently during manual verification (see the [exec
 - NEC-10 is intentionally limited to authentication behaviour. No purchase or payment flow is performed.
 - Suite C (PDS-01 to PDS-10) uses live Daraz.lk listings, so the products selected by RovaAI can differ between runs. PDS-08 and PDS-10 required manual follow-up to interpret the expected behaviour and to cover navigation actions the automated run did not perform.
 - Suite D (SFS-01 to SFS-10) also uses live Daraz.lk listings and filter values. SFS-05 and SFS-07 were confirmed manually because the automated evidence was limited, and SFS-09 required manual verification of multi-brand filtering.
+- Suite E (SCW-01 to SCW-10) was executed logged out. Most goals reached the authentication boundary; see the [execution report](../04-test-execution/execution-report.md) for the classification of each goal.
 - Test-case expected behaviour should be based on an agreed requirement and the actual interface, not an assumed control label or layout.

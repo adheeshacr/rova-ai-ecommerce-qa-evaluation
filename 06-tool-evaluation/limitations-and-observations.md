@@ -2,11 +2,11 @@
 
 ## 1. Evaluation context
 
-RovaAI was used to execute 42 distinct natural-language test goals across four e-commerce suites on Daraz.lk. The evaluation considered workflow coverage, browser interaction, result reporting and the interpretation of failed or blocked executions.
+RovaAI was used to execute 52 distinct natural-language test goals across five e-commerce suites on Daraz.lk. The evaluation considered workflow coverage, browser interaction, result reporting and the interpretation of failed or blocked executions.
 
 ## 2. Observed strengths
 
-- Supported execution of a 10-goal core shopping suite, a 12-goal negative and edge-case suite, a 10-goal product details and selection suite and a 10-goal search, filters and sorting suite.
+- Supported execution of a 10-goal core shopping suite, a 12-goal negative and edge-case suite, a 10-goal product details and selection suite, a 10-goal search, filters and sorting suite and a 10-goal shopping cart and wishlist suite.
 - Produced individual result pages, suite-level run summaries and a shareable suite report.
 - Supported browser-based checks of search, product discovery, authentication and quantity controls.
 - Made it possible to inspect execution steps and retain run-specific evidence links.
@@ -33,6 +33,12 @@ These are observations from this project, not a general benchmark of RovaAI agai
 | Suite 4 used zero retries | No retry attempts were available; all ten goals completed on the first attempt | Record the retry setting with each run, as it differed from Suite 3 (one retry) |
 | All ten Suite 4 goals showed Draft status before execution | The goals were still executable | As for Suite 3, do not treat Draft status as blocking |
 | Advanced Configuration showed optional device emulation | No device profile was shown as active; the run used a desktop layout | Record the active device or viewport setting with each run |
+| Suite 5 authentication-blocked goals were marked Failed | Eight goals blocked by Daraz.lk's login requirement appear in RovaAI as functional failures | Classify each failure from the evidence; record authentication blocks separately from defects |
+| The agent opened registration flows and stated an intention to create an account | Conflicts with the suite scope (no account creation). No account was created, no personal details were entered and no SMS verification was completed | Review step timelines; add explicit "do not open login or registration pages" constraints to goals |
+| The agent selected an adult product and clicked an age confirmation (SCW-05) | Execution-safety concern: the agent made a declaration on the tester's behalf | Constrain product selection in goals (for example, a named product or category) |
+| The login pop-up sometimes loaded blank in the automated browser | Repeated steps and longer durations (up to 185.7 seconds) | Treat long, repetitive timelines as a signal to review the replay |
+| SCW-09 used an incorrect wishlist URL (`www.daraz.lk/wishlist/`) | The agent treated a generic error page as evidence; the conclusion was confirmed only through manual verification of the actual wishlist URL | Independently validate URLs and evidence before accepting a pass |
+| Cart quantity, subtotal, removal, empty-cart and wishlist item management were untestable | No functional cart or wishlist coverage beyond the authentication boundary | Plan an approved authenticated test path separately; do not bypass login |
 
 ## 4. Quality of evidence and interpretation
 
@@ -52,6 +58,10 @@ RovaAI reported all ten Suite 3 goals as passed. Automated pass status alone did
 
 RovaAI reported all ten Suite 4 goals as passed in 9 minutes 11 seconds with zero retries. SFS-09 shows how an automated pass can be misleading when the test does not validate the full expected behaviour: RovaAI tested a brand plus a shipping-location filter, but did not adequately verify two brands together. Manual verification of that combination failed against the current expected result. SFS-05 and SFS-07 passed with thin automated evidence and required manual checks to confirm them. Details are in the [execution report](../04-test-execution/execution-report.md).
 
+### Suite 5 execution context
+
+RovaAI reported 2 passed and 8 failed goals in 15 minutes 59 seconds with zero retries. The eight failures were caused by Daraz.lk's authentication requirement for cart and wishlist access, not by demonstrated cart or wishlist defects, and RovaAI did not distinguish these from functional failures. The run also raised execution-safety concerns: the agent repeatedly opened registration flows and stated an intention to create an account (none was created, no personal details were entered and no SMS verification was completed), and it selected an adult product and clicked an age confirmation. SCW-09 shows the need for independent URL and evidence validation. These are tool and environment limitations, distinct from Daraz.lk application defects. Details are in the [execution report](../04-test-execution/execution-report.md).
+
 ## 5. Overall assessment
 
 For this limited project, RovaAI enabled execution and reporting of selected browser-based workflows. The exercise also demonstrated that AI-generated browser actions and status labels require human review, especially when CAPTCHA, WAF responses, dynamic controls, duplicate execution records, retries, ambiguous expected results or long-running sessions are involved.
@@ -65,6 +75,7 @@ This evaluation does not claim that RovaAI replaces all manual or code-based tes
 - Capture and review evidence for responsive viewports and category navigation.
 - Add dedicated API tests only after identifying supported endpoints and authorization.
 - Plan a separate performance-testing exercise with defined workloads and measurable service-level expectations.
+- Add explicit "do not open login or registration pages" and product-selection constraints to Suite 5 goals, and plan any authenticated cart testing separately with an approved test account.
 - Split SFS-09 into separate brand + brand and brand + other-filter scenarios, and clarify whether multi-brand selection is required, before any future Suite 4 rerun.
 - Revise the PDS-08 expected result and consider adding Back/Forward navigation to PDS-10 before any future Suite 3 rerun.
 - Expand regression coverage after the initial functional baseline is stable.

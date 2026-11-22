@@ -10,6 +10,7 @@ This page provides direct access to the completed RovaAI suite runs, individual 
 | Negative & Edge Case Scenarios | [Open RovaAI run](https://app.rova.qa/suites/runs/02b1a04f-71b3-4cdf-ac8b-0e67f5620b13) | 12 executions, 10 passed, 2 failed, 0 pending; 100% completion. |
 | Product Details & Product Selection | [Open RovaAI run](https://app.rova.qa/suites/runs/48f0f4d5-be13-46e5-8057-1512967b0ba9) | 10 executions, 10 passed, 0 failed, 0 pending; 100% completion; 33 minutes 12 seconds. RovaAI pass status only; see manual follow-up below. |
 | Search, Filters & Sorting | [Open RovaAI run](https://app.rova.qa/suites/runs/8d8e3e97-4286-4e44-80d3-6f2d2c360092) | 10 executions, 10 passed, 0 failed, 0 pending; 100% completion; 9 minutes 11 seconds; 0 retries. RovaAI pass status only; SFS-09 failed manual verification (see below). |
+| Shopping Cart & Wishlist | [Open RovaAI run](https://app.rova.qa/suites/runs/31e5374f-a403-4b20-9dfc-dd5f20cc30fe) | 10 executions, 2 passed, 8 failed, 0 pending; 100% completion; 15 minutes 59 seconds; 0 retries. Eight failures blocked by authentication; no confirmed defects (see below). |
 
 ### Core report reconciliation
 
@@ -104,6 +105,36 @@ SFS-09 manual verification screenshots:
 
 Daraz.lk pages are live and may change after the verification date. Findings are documented in the [execution report](../04-test-execution/execution-report.md) and the [observations log](../05-defect-management/observations-and-investigation.md).
 
+## Shopping Cart & Wishlist – individual results
+
+| Test ID | RovaAI result | RovaAI status |
+|---|---|---|
+| SCW-01 | [View result](https://app.rova.qa/results/4b280e65-09dc-4ccf-bbe6-84e95051a1bd) | Failed |
+| SCW-02 | [View result](https://app.rova.qa/results/607197a1-7132-4f02-9b62-f6fc35fc2f34) | Failed |
+| SCW-03 | [View result](https://app.rova.qa/results/2a1f9c77-9181-4364-a1eb-ee26e2cc04da) | Failed |
+| SCW-04 | [View result](https://app.rova.qa/results/ce931072-83c7-44c9-8e76-fa42907b7c84) | Failed |
+| SCW-05 | [View result](https://app.rova.qa/results/bc428454-2866-42d6-a9d8-735ba9c194d3) | Failed |
+| SCW-06 | [View result](https://app.rova.qa/results/52dbd86a-4959-4c0a-b2f3-bee15c690c78) | Failed |
+| SCW-07 | [View result](https://app.rova.qa/results/7903ed13-2634-400b-8eaf-83b3b0089231) | Failed |
+| SCW-08 | [View result](https://app.rova.qa/results/e1d4f559-44fe-4c67-9c2b-572b69efbb79) | Passed |
+| SCW-09 | [View result – conclusion manually confirmed](https://app.rova.qa/results/cff7e099-75dd-41c7-8857-b2941bcfdce8) | Passed |
+| SCW-10 | [View result – partially verified](https://app.rova.qa/results/592abce6-f5f1-47dc-bda4-11a76148cd7b) | Failed |
+
+Each Suite 5 result page includes the agent's step timeline and a video recording within RovaAI.
+
+### Suite 5 manual verification references (22 November 2026, logged out)
+
+| Check | Page | Outcome |
+|---|---|---|
+| Cart access | [cart.daraz.lk/cart](https://cart.daraz.lk/cart) | Redirects to the Daraz login page. |
+| Wishlist access | [my.daraz.lk/wishlist/index](https://my.daraz.lk/wishlist/index) | Redirects to the Daraz login page. |
+| URL used by RovaAI for SCW-09 | [www.daraz.lk/wishlist/](https://www.daraz.lk/wishlist/) | Generic error page; not the wishlist page. |
+
+Suite 5 manual verification screenshots:
+
+- [SCW-01 – Add to Cart while logged out opens the login pop-up](S5-1-add-to-cart-logged-out-login-modal.jpg)
+- [SCW-08 – Wishlist heart while logged out opens the login pop-up](S5-2-wishlist-heart-logged-out-login-modal.jpg)
+
 ## Video evidence
 
 - [NEC-01 execution replay](https://rova-storage.s3.us-west-2.amazonaws.com/rova/web/c7bff371-c60a-4f43-8a07-7ee71e5c3a15/videos/video-7debea8d-e92c-4794-9617-3b876c87ab9d-1795236023043.webm)
@@ -112,6 +143,6 @@ Daraz.lk pages are live and may change after the verification date. Findings are
 ## Evidence handling notes
 
 - RovaAI links are external and may require an authenticated session.
-- Suite 3 and Suite 4 manual verification screenshots are stored in the evidence folder.
+- Suite 3, Suite 4 and Suite 5 manual verification screenshots are stored in the evidence folder.
 - Evidence should be added only when genuine, relevant and free of credentials, personal information or payment details.
 - Test result pages, shared suite reports and recordings are the primary traceability references for this iteration.

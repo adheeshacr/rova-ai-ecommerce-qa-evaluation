@@ -4,12 +4,13 @@
 
 A risk-focused, black-box functional testing approach was used. Test goals were written in natural language and executed through RovaAI against Daraz.lk.
 
-Four complementary suites were selected:
+Five of six planned suites have been executed:
 
 1. **Core Shopping Flow Validation** – positive and primary customer journey coverage.
 2. **Negative & Edge Case Scenarios** – invalid input, boundary, authentication and resilience-oriented checks.
 3. **Product Details & Product Selection** – product detail page content, variation selection, availability and navigation/refresh behaviour.
 4. **Search, Filters & Sorting** – keyword search, search suggestions, no-results handling, category and price filtering, price sorting, combined filters and clearing filters.
+5. **Shopping Cart & Wishlist** – adding to cart, cart item details, quantity changes, subtotal, removal, empty-cart state, wishlist authentication and navigation between product, cart and wishlist pages.
 
 ## 2. Coverage model
 
@@ -22,6 +23,7 @@ Four complementary suites were selected:
 | Input robustness | Empty, malformed and special-character search/input |
 | Boundary conditions | Quantity zero, non-numeric quantity, stock limit |
 | Navigation errors | Non-existent product URL |
+| Cart and wishlist | Add to cart, quantity and subtotal, removal, empty cart, wishlist access (logged out; authentication boundary) |
 | Repeated actions | Rapid repeated login submissions |
 
 ## 3. Execution configuration
@@ -42,12 +44,21 @@ Four complementary suites were selected:
 
 The Core suite's retry setting was retained as configured. This report does not assume that a retry occurred unless indicated in the run evidence.
 
+### Shopping Cart & Wishlist suite
+- 10 test goals, sequential execution.
+- Chromium; Advanced Configuration enabled with the Desktop Chrome device profile.
+- Stop on Failure disabled; retries configured to 0.
+- Executed logged out. Suite scope excludes placing orders, making payments, creating accounts and bypassing login.
+- Complete run: 10/10 goals reached a terminal result (2 passed, 8 failed in RovaAI).
+- Execution status: executed; eight goals were blocked by Daraz.lk's authentication requirement for cart and wishlist access.
+
 ## 4. Test data and safety
 
 - Search terms included ordinary keywords, random strings and special characters.
 - Login checks used invalid or empty input; no real account credentials are documented.
 - Product quantity checks covered zero, non-numeric input and stock boundaries.
 - Logged-out Add to Cart / Buy Now checks stopped at the login prompt or redirect. Checkout and payment were not completed.
+- Cart and wishlist checks were performed logged out. No account was created, no credentials were entered, and nothing was left in a cart.
 - No passwords, personal account data or payment details are included in this repository.
 
 ## 5. Entry and exit criteria
@@ -65,10 +76,13 @@ The Core suite's retry setting was retained as configured. This report does not 
 | Dynamic e-commerce content | Record observed behaviour in the execution report |
 | Sequential run stops early | Disable Stop on Failure when a full suite result is required |
 | Scope does not include backend inspection | Avoid claims about backend security or data integrity |
+| Cart and wishlist require an authenticated account | Record affected goals as blocked by authentication; do not sign in, create accounts or bypass login |
+| Automation agent may attempt registration or age confirmation | Review step timelines after each run and add explicit "do not register" constraints to goals where needed |
 
 ## 7. Result classification
 
 - **Passed:** RovaAI marked the test goal as passed and the observed behaviour supported the goal.
 - **Failed – tool-reported:** RovaAI marked the goal failed. Further analysis may show that the intended application behaviour was not reached.
+- **Blocked by authentication:** the goal could not reach the intended behaviour because the application requires a signed-in account. Not a defect.
 - **Inconclusive:** the run did not provide enough evidence to decide whether the application meets the expected behaviour.
 - **Confirmed defect:** use only when repeatable application evidence demonstrates behaviour contrary to a clear requirement. No confirmed product defect is asserted by this report.

@@ -6,7 +6,7 @@ This log separates confirmed application defects from test observations and chec
 
 ## Current status
 
-**No confirmed application defects have been established from the four suite runs documented in this repository.**
+**No confirmed application defects have been established from the five suite runs documented in this repository.**
 
 | Reference | Observation | Classification | Evidence / next action |
 |---|---|---|---|
@@ -20,6 +20,8 @@ This log separates confirmed application defects from test observations and chec
 | SFS-08 | Top "laptop" result sorted high to low was a UGREEN 67W laptop power adapter listed at Rs. 1,655,266,553. Sort order was correct. | Seller listing data observation – not a sorting defect | [RovaAI result](https://app.rova.qa/results/45d969af-94ae-4ba4-87df-f38422f94734). No defect raised. |
 | SFS-09 | Selecting a second brand replaced the first; only the latest brand was applied. Removing it cleared all brand filters. Brand + Shipped From worked. | Manual failure against the current expected result – requirement clarification required; not a confirmed defect | [RovaAI result](https://app.rova.qa/results/8e6e5ba0-c4a2-49de-95a3-90d79abc8477), [UGREEN + Andoer](https://www.daraz.lk/ugreen--andoer/?q=phone), [Sanrio + Disney](https://www.daraz.lk/sanrio--disney/?q=phone). See investigation detail below. No defect ID created. |
 | SFS-10 | One automation interaction step failed (element selection); the test recovered and completed. | Automation limitation – no impact on the result | [RovaAI result](https://app.rova.qa/results/ee10dbc6-653f-4c0f-8f26-8006dc883aba). |
+| SCW-01 to SCW-07, SCW-10 | Cart and wishlist actions require a signed-in account: logged-out Add to Cart opens a login pop-up, and the cart URL redirects to login. | Authentication boundary – blocked, not a defect | [Run report](https://app.rova.qa/suites/runs/31e5374f-a403-4b20-9dfc-dd5f20cc30fe). Manually verified on 22 November 2026. Functional cart behaviour remains unverified. |
+| SCW-09 | RovaAI used `www.daraz.lk/wishlist/`, which shows a generic error page. The actual wishlist URL `my.daraz.lk/wishlist/index` redirects to login. | Automation evidence error – conclusion manually confirmed; not a defect | [RovaAI result](https://app.rova.qa/results/cff7e099-75dd-41c7-8857-b2941bcfdce8). |
 
 ## CSF-08 investigation detail
 
@@ -127,6 +129,14 @@ When "laptop" results were sorted by price high to low, the first product was a 
 
 One step that attempted to select the Sanrio brand filter failed because of an element-selection issue. The agent recovered on the following step, applied and cleared the filter twice, and confirmed that the result count returned from 427 to the 48,521 baseline. This is an automation limitation with no impact on the result.
 
+## Suite 5 follow-up detail (Shopping Cart & Wishlist)
+
+RovaAI reported 2 passed and 8 failed goals. All eight failures reached Daraz.lk's authentication boundary: adding to the cart, viewing the cart, adding to the wishlist and viewing the wishlist require a signed-in account. Manual checks on 22 November 2026, performed logged out, confirmed that Add to Cart and the wishlist heart open a login pop-up, and that `https://cart.daraz.lk/cart` and `https://my.daraz.lk/wishlist/index` redirect to the login page.
+
+Requiring authentication for cart and wishlist access is recorded as an observation about the application's design, **not as a defect**. No defect ID has been created. Cart and wishlist functionality beyond the login boundary remains unverified.
+
+For SCW-09, RovaAI's evidence came from `https://www.daraz.lk/wishlist/`, which is not the wishlist page and displays a generic error page. The conclusion that the wishlist requires authentication was confirmed independently using the actual wishlist URL.
+
 ## Defect reporting decision
 
 A defect should be raised only when there is sufficient evidence of repeatable application behaviour that violates an agreed expected result. For each future confirmed defect, capture:
@@ -139,4 +149,4 @@ A defect should be raised only when there is sufficient evidence of repeatable a
 - Severity, priority and affected workflow.
 - Re-test result and closure status.
 
-The WAF, CAPTCHA and category-dropdown observations remain follow-up items, the Suite 3 findings (PDS-02, PDS-08, PDS-10) are documented observations, and the Suite 4 findings (SFS-05, SFS-07, SFS-08, SFS-09, SFS-10) are documented observations. SFS-09 is a manual failure against the current expected result that requires requirement clarification. None is a confirmed product defect.
+The WAF, CAPTCHA and category-dropdown observations remain follow-up items, the Suite 3 findings (PDS-02, PDS-08, PDS-10) are documented observations, and the Suite 4 findings (SFS-05, SFS-07, SFS-08, SFS-09, SFS-10) are documented observations. SFS-09 is a manual failure against the current expected result that requires requirement clarification. The Suite 5 findings (authentication boundary for SCW-01 to SCW-07 and SCW-10; incorrect evidence URL for SCW-09) are documented observations. None is a confirmed product defect.

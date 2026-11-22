@@ -2,7 +2,7 @@
 
 ## 1. Executive summary
 
-Four RovaAI suites were executed against Daraz.lk, covering **42 distinct test goals**. The Negative & Edge Case run contains 12 executions, and the Product Details & Product Selection and Search, Filters & Sorting runs contain 10 each. The Core suite's shared report contains 11 execution records because the category-dropdown scenario appears twice (once passed and once failed).
+Five RovaAI suites were executed against Daraz.lk, covering **52 distinct test goals**. The Negative & Edge Case run contains 12 executions, and the Product Details & Product Selection, Search, Filters & Sorting and Shopping Cart & Wishlist runs contain 10 each. The Core suite's shared report contains 11 execution records because the category-dropdown scenario appears twice (once passed and once failed).
 
 | Evidence source | Reported executions | Passed | Failed | Pending | Completion |
 |---|---:|---:|---:|---:|---:|
@@ -11,10 +11,11 @@ Four RovaAI suites were executed against Daraz.lk, covering **42 distinct test g
 | Negative & Edge Case Scenarios | 12 | 10 | 2 | 0 | 100% |
 | Product Details & Product Selection | 10 | 10 | 0 | 0 | 100% |
 | Search, Filters & Sorting | 10 | 10 | 0 | 0 | 100% |
+| Shopping Cart & Wishlist | 10 | 2 | 8 | 0 | 100% |
 
 **Data reconciliation note:** The Core run's separate statistics panel showed 10/10 passed, while its subsequently reviewed shared report showed 11 execution records, 10 passed and 1 failed. The shared report lists the Category dropdown scenario twice: a 749.3-second passed execution and an 894.0-second failed execution. The detailed failed execution was reviewed and is documented below. These records cannot safely be collapsed into a single definitive Core pass rate without resolving the discrepancy in RovaAI. For transparency, this report preserves both source summaries rather than silently choosing one.
 
-Across the four suites there are **42 distinct test goals** and **43 visible execution records** when the duplicate Core dropdown execution is counted. Adding the visible RovaAI execution outcomes gives 40 passed and 3 failed records; this is an execution-record count, not a unique-test-goal pass rate. A RovaAI pass status does not by itself establish complete coverage of a goal. Manual verification findings are tracked separately from RovaAI statuses: see the Suite 3 follow-up in section 4 and the Suite 4 follow-up in section 5, where SFS-09 failed manual verification despite a RovaAI pass.
+Across the five suites there are **52 distinct test goals** and **53 visible execution records** when the duplicate Core dropdown execution is counted. Adding the visible RovaAI execution outcomes gives 42 passed and 11 failed records; this is an execution-record count, not a unique-test-goal pass rate. A RovaAI pass status does not by itself establish complete coverage of a goal. Manual verification findings are tracked separately from RovaAI statuses: see the Suite 3 follow-up in section 4 the Suite 4 follow-up in section 5, where SFS-09 failed manual verification despite a RovaAI pass, and the Suite 5 classification in section 6, where eight RovaAI failures are attributed to the authentication boundary rather than application defects.
 
 ## 2. Core Shopping Flow Validation
 
@@ -208,7 +209,72 @@ Manual checks were performed on Daraz.lk on 22 November 2026, read-only and logg
 - **Configuration:** the suite ran with 0 retries. All ten goals showed Draft status before execution and were executable.
 - **No confirmed application defects** were established from Suite 4.
 
-## 6. Failure analysis and follow-up
+## 6. Shopping Cart & Wishlist
+
+### 6.1 RovaAI automated execution
+
+- Suite: Daraz.lk – Shopping Cart & Wishlist
+- Run report: [Open RovaAI run](https://app.rova.qa/suites/runs/31e5374f-a403-4b20-9dfc-dd5f20cc30fe)
+- Project / environment: Ecommerce WebApp / Staging Env. Application under test: https://www.daraz.lk/
+- Execution date: 22 November 2026.
+- Runtime configuration: sequential, Chromium, 0 retries, Stop on Failure off; Advanced Configuration enabled with the Desktop Chrome device profile.
+- Goals executed: 10.
+- RovaAI result: 2 passed, 8 failed, 0 pending.
+- Execution completion: 100%.
+- Total execution time: 15 minutes 59 seconds.
+- All goals were executed logged out. No account was created, no login was attempted with credentials, and no order or payment was made.
+
+| ID | Test goal | RovaAI result | Duration | Steps | Result report | Observed behaviour | QA classification |
+|---|---|---|---:|---:|---|---|---|
+| SCW-01 | Add available product to cart | Failed | 118.7s | 17 | [View result](https://app.rova.qa/results/4b280e65-09dc-4ccf-bbe6-84e95051a1bd) | Add to Cart opened a login pop-up; the product was not added. | Blocked by authentication |
+| SCW-02 | Display correct cart item details | Failed | 84.5s | 11 | [View result](https://app.rova.qa/results/607197a1-7132-4f02-9b62-f6fc35fc2f34) | Every cart access redirected to the Daraz login page; item details could not be inspected. | Blocked by authentication |
+| SCW-03 | Increase cart item quantity | Failed | 185.7s | 23 | [View result](https://app.rova.qa/results/2a1f9c77-9181-4364-a1eb-ee26e2cc04da) | No item could be added; quantity was changed only on the product page, not in the cart. | Blocked by authentication |
+| SCW-04 | Decrease cart item quantity | Failed | 153.9s | 19 | [View result](https://app.rova.qa/results/ce931072-83c7-44c9-8e76-fa42907b7c84) | Add to Cart redirected to registration; cart quantity controls could not be reached. | Blocked by authentication |
+| SCW-05 | Update cart subtotal on quantity change | Failed | 153.0s | 23 | [View result](https://app.rova.qa/results/bc428454-2866-42d6-a9d8-735ba9c194d3) | The cart URL consistently redirected to login; subtotal recalculation could not be exercised. | Blocked by authentication |
+| SCW-06 | Remove product from cart | Failed | 31.1s | 4 | [View result](https://app.rova.qa/results/52dbd86a-4959-4c0a-b2f3-bee15c690c78) | Add to Cart opened a mandatory sign-up pop-up, so there was no cart item to remove. | Blocked by authentication |
+| SCW-07 | Show empty-cart state after removal | Failed | 87.8s | 11 | [View result](https://app.rova.qa/results/7903ed13-2634-400b-8eaf-83b3b0089231) | The cart URL and header cart icon redirected to registration; the empty-cart state could not be viewed. | Blocked by authentication |
+| SCW-08 | Check wishlist action authentication requirement | Passed | 27.9s | 5 | [View result](https://app.rova.qa/results/e1d4f559-44fe-4c67-9c2b-572b69efbb79) | Clicking the wishlist heart while logged out opened the login pop-up. | Authentication requirement confirmed |
+| SCW-09 | View and remove wishlist product if unauthenticated | Passed | 55.0s | 6 | [View result](https://app.rova.qa/results/cff7e099-75dd-41c7-8857-b2941bcfdce8) | Opened `www.daraz.lk/wishlist/`, which shows a generic error page, and recorded the wishlist as blocked. | Conclusion manually confirmed; RovaAI used an incorrect URL |
+| SCW-10 | Navigate between product and cart pages | Failed | 58.0s | 8 | [View result](https://app.rova.qa/results/592abce6-f5f1-47dc-bda4-11a76148cd7b) | Product pages opened; cart access redirected to login and registration, so the goal was marked failed. | Partially verified |
+
+The RovaAI "Failed" status for SCW-01 to SCW-07 and SCW-10 reflects the authentication boundary, not a demonstrated cart or wishlist malfunction. RovaAI's own analysis for each failed goal attributes the failure to the missing authenticated session.
+
+### 6.2 Manual follow-up verification
+
+Manual checks were performed on Daraz.lk on 22 November 2026 while logged out. No login, account creation, checkout or payment was attempted. Nothing was added to the cart, so no cleanup was needed.
+
+| Check | Result |
+|---|---|
+| Product page: click Add to Cart | A login pop-up appeared; the header cart count remained empty. |
+| Product page: click the wishlist heart | The same login pop-up appeared. |
+| Open `https://cart.daraz.lk/cart` | Redirected to the Daraz login page. |
+| Open `https://my.daraz.lk/wishlist/index` (the wishlist link in the site's own account menu) | Redirected to the Daraz login page. |
+| Open `https://www.daraz.lk/wishlist/` (the URL used by RovaAI for SCW-09) | Displayed a generic "We're Sorry, an error has occurred" page; this is not the wishlist page. |
+| Search results → product details → header cart icon → browser Back | Product details opened correctly, the cart icon redirected to login, and Back returned to the product page. |
+
+Screenshots of the Add to Cart and wishlist login prompts are indexed in the [evidence index](../evidence/evidence-index.md).
+
+### 6.3 QA classification
+
+| Goals | Classification |
+|---|---|
+| SCW-01 to SCW-07 | Blocked by authentication requirements. Not application defects. |
+| SCW-08 | Authentication requirement successfully confirmed. |
+| SCW-09 | Conclusion (wishlist requires login) manually confirmed; RovaAI's evidence used an incorrect URL. |
+| SCW-10 | Partially verified: product navigation works; cart and wishlist access require login. |
+
+**Overall assessment:** no confirmed application defects were identified in Suite 5. Cart and wishlist functionality beyond the authentication boundary (cart line-item details, quantity changes, subtotal recalculation, removal, empty-cart state and wishlist item management) remains unverified.
+
+### 6.4 Coverage limitations and observations
+
+- **Authentication-blocked goals reported as Failed.** RovaAI did not distinguish authentication-blocked scenarios from functional failures.
+- **Registration attempts by the agent.** In several goals the agent opened Daraz registration flows and stated an intention to create an account. Step timelines show that no account was created, no personal details were entered and no SMS verification was completed; the SMS requirement stopped each attempt.
+- **Adult product and age confirmation.** In SCW-05 the agent selected an adult product and clicked an age confirmation. This is recorded as an execution-safety concern.
+- **Blank login pop-up.** The login pop-up sometimes loaded blank in the automated browser, causing repeated steps and longer durations (up to 185.7 seconds).
+- **Incorrect URL in SCW-09.** The agent treated an error page at a non-existent URL as evidence; independent verification was needed to confirm the conclusion.
+- Further detail is recorded in the [observations and investigation log](../05-defect-management/observations-and-investigation.md) and the [RovaAI evaluation](../06-tool-evaluation/limitations-and-observations.md).
+
+## 7. Failure analysis and follow-up
 
 ### NEC-03 – WAF interstitial
 **Classification:** Inconclusive application check / environment or security-layer interference.
@@ -225,8 +291,8 @@ The CAPTCHA prevented the automated browser from submitting the malformed identi
 
 The failed replay did not identify the dropdown control expected by the test. Clarify the intended navigation component and align the test steps with the current UI before rerunning. Do not log this as a confirmed defect based on the available evidence.
 
-## 7. Overall conclusion
+## 8. Overall conclusion
 
-The four suites cover 42 distinct test goals and reached 100% execution completion. The Negative & Edge Case suite has a clear result of 10 passed and 2 blocked/failed checks. The Core suite has conflicting aggregate evidence: a separate statistics panel reports 10/10 passed, while the shared report shows 11 execution records with 10 passed and 1 failed due to a duplicate category-dropdown scenario.
+The five suites cover 52 distinct test goals and reached 100% execution completion. The Negative & Edge Case suite has a clear result of 10 passed and 2 blocked/failed checks. The Core suite has conflicting aggregate evidence: a separate statistics panel reports 10/10 passed, while the shared report shows 11 execution records with 10 passed and 1 failed due to a duplicate category-dropdown scenario.
 
-This discrepancy is explicitly retained for auditability. The Product Details & Product Selection suite was reported by RovaAI as 10/10 passed; manual follow-up confirmed the PDS-10 navigation and reload behaviour and reclassified PDS-08 as an expected-result mismatch rather than a clean pass against the configured wording. The Search, Filters & Sorting suite was also reported by RovaAI as 10/10 passed; manual checks confirmed SFS-05, SFS-07 and SFS-08 sorting, but SFS-09 failed manual verification because two brand filters could not be kept applied together, pending requirement clarification. The observed failures and follow-up findings are not, on current evidence, confirmed application defects. The project demonstrates test planning, scenario design, review of AI-assisted execution, evidence interpretation and transparent reporting. No checkout or payment was completed.
+This discrepancy is explicitly retained for auditability. The Product Details & Product Selection suite was reported by RovaAI as 10/10 passed; manual follow-up confirmed the PDS-10 navigation and reload behaviour and reclassified PDS-08 as an expected-result mismatch rather than a clean pass against the configured wording. The Search, Filters & Sorting suite was also reported by RovaAI as 10/10 passed; manual checks confirmed SFS-05, SFS-07 and SFS-08 sorting, but SFS-09 failed manual verification because two brand filters could not be kept applied together, pending requirement clarification. The Shopping Cart & Wishlist suite was reported by RovaAI as 2 passed and 8 failed; the eight failures were caused by Daraz.lk's authentication requirement for cart and wishlist access, so cart and wishlist functionality beyond the login boundary remains unverified. The observed failures and follow-up findings are not, on current evidence, confirmed application defects. The project demonstrates test planning, scenario design, review of AI-assisted execution, evidence interpretation and transparent reporting. No checkout or payment was completed.
