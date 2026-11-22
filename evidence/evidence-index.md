@@ -64,9 +64,9 @@ Manual verification screenshots:
 - [PDS-08 – size US 8 selected, out of stock](G08-2-size8-selected-out-of-stock.jpg)
 - [PDS-10 – homepage Flash Sale before opening product](G10-1-homepage-flash-sale-before.jpg)
 - [PDS-10 – listing after Back](G10-2-after-back-listing-restored.jpg)
-- [PDS-10 – product page after Forward and reload](G10-3-product-after-forward-and-reload.jpg
+- [PDS-10 – product page after Forward and reload](G10-3-product-after-forward-and-reload.jpg)
 
--   Daraz.lk pages are live and may change after the verification date. Findings are documented in the [execution report](../04-test-execution/execution-report.md) and the [observations log](../05-defect-management/observations-and-investigation.md).
+Daraz.lk pages are live and may change after the verification date. Findings are documented in the [execution report](../04-test-execution/execution-report.md) and the [observations log](../05-defect-management/observations-and-investigation.md).
 
 ## Video evidence
 
