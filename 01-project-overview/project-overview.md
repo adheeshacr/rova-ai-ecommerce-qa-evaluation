@@ -4,6 +4,10 @@
 
 This project evaluates RovaAI, an AI-powered browser testing platform, through selected customer-facing workflows on Daraz.lk. The exercise uses an e-commerce application to examine how well AI-driven execution can support functional, negative and edge-case testing.
 
+### Project context
+
+This project was carried out as part of the Testers Connect cohort. The test suites, executions and findings were produced through cohort collaboration; this repository documents the portfolio write-up, analysis and evidence review of that work.
+
 ## 2. Objectives
 
 - Validate important shopping journeys from homepage discovery through product selection and cart authentication.
@@ -20,7 +24,7 @@ This project evaluates RovaAI, an AI-powered browser testing platform, through s
 | Test platform | [RovaAI](https://app.rova.qa/) |
 | RovaAI project | Ecommerce WebApp |
 | Environment selected in RovaAI | Staging Env |
-| Browser | Chromium (as configured for the Negative & Edge run) |
+| Browser | Chromium (as configured for Suites 2–6; Desktop Chrome device profile for Suites 5 and 6) |
 
 The application was tested as a black box. Internal source code, service implementation and database behaviour were not inspected.
 
@@ -32,6 +36,7 @@ The application was tested as a black box. Internal source code, service impleme
 - Product search-result navigation and product detail information.
 - Logged-out cart/purchase action authentication prompt.
 - Shopping cart and wishlist behaviour up to the authentication boundary (logged out).
+- Checkout entry points up to the authentication boundary (logged out), stopping before any order or payment submission.
 - Login form validation and incorrect-credential feedback.
 - Product quantity boundaries and stock constraints.
 - Invalid product URL handling.
@@ -39,7 +44,7 @@ The application was tested as a black box. Internal source code, service impleme
 - RovaAI execution outcomes and automation limitations.
 
 ### Out of scope
-- Completing checkout or making a payment.
+- Completing checkout, entering delivery or payment details, or making a payment.
 - Full end-to-end order placement.
 - Signing in, creating accounts or testing cart and wishlist functionality that requires authentication.
 - Backend/API security verification or proof of SQL injection resistance.
@@ -49,12 +54,12 @@ The application was tested as a black box. Internal source code, service impleme
 
 ## 5. Deliverables
 
-The repository documents the project approach, 52 test goals across five executed suites (5 of 6 planned suites), execution results, evidence links, and an evaluation of the testing platform's observed limitations.
+The repository documents the project approach, 62 test goals across six suites (Suites 1–5 executed to completion; Suite 6 stopped partway for safety), execution results, evidence links, and an evaluation of the testing platform's observed limitations.
 
 ## 6. Success criteria
 
 - All selected test goals are represented in the test design.
-- All five executed suites reach 100% execution completion.
+- Every suite is executed as far as safely possible, and incomplete or stopped execution is reported explicitly.
 - Raw tool statuses are preserved.
 - Inconclusive outcomes are clearly separated from confirmed product defects.
 - Evidence links and run-level summaries are provided for review.

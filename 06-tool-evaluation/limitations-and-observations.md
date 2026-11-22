@@ -2,15 +2,17 @@
 
 ## 1. Evaluation context
 
-RovaAI was used to execute 52 distinct natural-language test goals across five e-commerce suites on Daraz.lk. The evaluation considered workflow coverage, browser interaction, result reporting and the interpretation of failed or blocked executions.
+RovaAI was used across six e-commerce suites on Daraz.lk containing 62 natural-language test goals. Suites 1–5 ran to completion and Suite 6 was stopped partway for safety, so 59 goals produced a RovaAI result. The evaluation considered workflow coverage, browser interaction, result reporting and the interpretation of failed or blocked executions.
 
 ## 2. Observed strengths
 
-- Supported execution of a 10-goal core shopping suite, a 12-goal negative and edge-case suite, a 10-goal product details and selection suite, a 10-goal search, filters and sorting suite and a 10-goal shopping cart and wishlist suite.
+- Supported execution of a 10-goal core shopping suite, a 12-goal negative and edge-case suite, a 10-goal product details and selection suite, a 10-goal search, filters and sorting suite, a 10-goal shopping cart and wishlist suite and a 10-goal checkout and order management suite (stopped partway).
 - Produced individual result pages, suite-level run summaries and a shareable suite report.
 - Supported browser-based checks of search, product discovery, authentication and quantity controls.
 - Made it possible to inspect execution steps and retain run-specific evidence links.
 - Result pages included step-by-step agent reasoning, a video recording and network data. The network data made it possible to identify the exact products used in the Suite 3 run for manual follow-up.
+- Executed straightforward search, filtering and sorting goals quickly (Suite 4: ten goals in 9 minutes 11 seconds).
+- Generated failure analyses that usually identified the real cause (for example, "authentication required" rather than a cart defect), which supported accurate classification.
 - Provided a useful starting point for AI-assisted test execution without first building a coded browser automation framework for these scenarios.
 
 These are observations from this project, not a general benchmark of RovaAI against other test automation products.
@@ -39,6 +41,10 @@ These are observations from this project, not a general benchmark of RovaAI agai
 | The login pop-up sometimes loaded blank in the automated browser | Repeated steps and longer durations (up to 185.7 seconds) | Treat long, repetitive timelines as a signal to review the replay |
 | SCW-09 used an incorrect wishlist URL (`www.daraz.lk/wishlist/`) | The agent treated a generic error page as evidence; the conclusion was confirmed only through manual verification of the actual wishlist URL | Independently validate URLs and evidence before accepting a pass |
 | Cart quantity, subtotal, removal, empty-cart and wishlist item management were untestable | No functional cart or wishlist coverage beyond the authentication boundary | Plan an approved authenticated test path separately; do not bypass login |
+| Suite 6 agent repeatedly opened sign-up, register and login pages despite explicit suite instructions | Safety-boundary compliance concern; instructions in the suite description were not reliably followed | Monitor live reasoning; stop the run when a boundary is breached |
+| Suite 6 agent attempted to type into the sign-up phone-number field (COM-08) | Potential personal-data entry; the run was stopped and no step log exists to confirm whether text was entered | Treat as a critical control limitation; do not run unattended against live sign-up flows |
+| Suite 6 passes awarded where only the login prompt was observed | Five passes overstate coverage; no checkout feature was verified | Write expected results that cannot be satisfied by an authentication block, or classify such passes manually |
+| Stopping a run removes the in-progress goal's record | COM-08 has no reviewable evidence after the stop | Capture notable live reasoning before stopping |
 
 ## 4. Quality of evidence and interpretation
 
@@ -62,6 +68,14 @@ RovaAI reported all ten Suite 4 goals as passed in 9 minutes 11 seconds with zer
 
 RovaAI reported 2 passed and 8 failed goals in 15 minutes 59 seconds with zero retries. The eight failures were caused by Daraz.lk's authentication requirement for cart and wishlist access, not by demonstrated cart or wishlist defects, and RovaAI did not distinguish these from functional failures. The run also raised execution-safety concerns: the agent repeatedly opened registration flows and stated an intention to create an account (none was created, no personal details were entered and no SMS verification was completed), and it selected an adult product and clicked an age confirmation. SCW-09 shows the need for independent URL and evidence validation. These are tool and environment limitations, distinct from Daraz.lk application defects. Details are in the [execution report](../04-test-execution/execution-report.md).
 
+### Suite 6 execution context
+
+RovaAI completed 7 of 10 Suite 6 goals (5 passed, 2 failed) before the run was deliberately stopped at a reported 70% completion. Checkout requires authentication, so no checkout functionality was verified; the passes confirm only the login requirement. The agent repeatedly opened sign-up, register and login pages despite explicit instructions not to, and during COM-08 attempted to type into the sign-up phone-number field, at which point the run was stopped. No SMS verification, account creation, payment or order occurred, but whether any text was entered in that final attempt could not be fully confirmed. Details are in the [execution report](../04-test-execution/execution-report.md).
+
+### Safety-boundary compliance (Suites 5 and 6)
+
+Across Suites 5 and 6 the agent did not reliably respect scope instructions written into the suite description: it opened registration and login flows, selected an adult product and clicked an age confirmation (Suite 5), and attempted personal-data entry (Suite 6). For live production sites, AI testing agents should be run with active supervision, narrowly constrained goals and a willingness to stop the run.
+
 ## 5. Overall assessment
 
 For this limited project, RovaAI enabled execution and reporting of selected browser-based workflows. The exercise also demonstrated that AI-generated browser actions and status labels require human review, especially when CAPTCHA, WAF responses, dynamic controls, duplicate execution records, retries, ambiguous expected results or long-running sessions are involved.
@@ -75,6 +89,7 @@ This evaluation does not claim that RovaAI replaces all manual or code-based tes
 - Capture and review evidence for responsive viewports and category navigation.
 - Add dedicated API tests only after identifying supported endpoints and authorization.
 - Plan a separate performance-testing exercise with defined workloads and measurable service-level expectations.
+- Run checkout and cart scenarios only with an approved authenticated test account in a suitable environment; do not rerun Suite 6 against live sign-up flows.
 - Add explicit "do not open login or registration pages" and product-selection constraints to Suite 5 goals, and plan any authenticated cart testing separately with an approved test account.
 - Split SFS-09 into separate brand + brand and brand + other-filter scenarios, and clarify whether multi-brand selection is required, before any future Suite 4 rerun.
 - Revise the PDS-08 expected result and consider adding Back/Forward navigation to PDS-10 before any future Suite 3 rerun.

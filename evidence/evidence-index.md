@@ -11,6 +11,7 @@ This page provides direct access to the completed RovaAI suite runs, individual 
 | Product Details & Product Selection | [Open RovaAI run](https://app.rova.qa/suites/runs/48f0f4d5-be13-46e5-8057-1512967b0ba9) | 10 executions, 10 passed, 0 failed, 0 pending; 100% completion; 33 minutes 12 seconds. RovaAI pass status only; see manual follow-up below. |
 | Search, Filters & Sorting | [Open RovaAI run](https://app.rova.qa/suites/runs/8d8e3e97-4286-4e44-80d3-6f2d2c360092) | 10 executions, 10 passed, 0 failed, 0 pending; 100% completion; 9 minutes 11 seconds; 0 retries. RovaAI pass status only; SFS-09 failed manual verification (see below). |
 | Shopping Cart & Wishlist | [Open RovaAI run](https://app.rova.qa/suites/runs/31e5374f-a403-4b20-9dfc-dd5f20cc30fe) | 10 executions, 2 passed, 8 failed, 0 pending; 100% completion; 15 minutes 59 seconds; 0 retries. Eight failures blocked by authentication; no confirmed defects (see below). |
+| Checkout & Order Management | [Open RovaAI run](https://app.rova.qa/suites/runs/a5bc6090-deb7-43e9-ab37-25d17af3d035) | Stopped for safety: 7 goals completed (5 passed, 2 failed), 1 stopped partway, 2 not run; 70% reported completion. No checkout functionality verified. |
 
 ### Core report reconciliation
 
@@ -134,6 +135,23 @@ Suite 5 manual verification screenshots:
 
 - [SCW-01 – Add to Cart while logged out opens the login pop-up](S5-1-add-to-cart-logged-out-login-modal.jpg)
 - [SCW-08 – Wishlist heart while logged out opens the login pop-up](S5-2-wishlist-heart-logged-out-login-modal.jpg)
+
+## Checkout & Order Management – individual results
+
+| Test ID | RovaAI result | RovaAI status |
+|---|---|---|
+| COM-01 | [View result](https://app.rova.qa/results/97154ef8-56a7-4469-91ff-f5213e82ce85) | Passed |
+| COM-02 | [View result](https://app.rova.qa/results/60fac18b-25e8-46ac-a6ce-95c97d4ce1e1) | Passed |
+| COM-03 | [View result](https://app.rova.qa/results/a12fafc1-fb91-4195-b3c5-6b13fa300e8f) | Passed |
+| COM-04 | [View result](https://app.rova.qa/results/76f4a7c6-d38d-4f38-8f2a-533df1dc63cd) | Passed |
+| COM-05 | [View result](https://app.rova.qa/results/7a80d595-b3a5-42fd-b6a1-5ffd528661d3) | Failed |
+| COM-06 | [View result](https://app.rova.qa/results/0723f66e-3744-45e6-9083-17b86b4e2362) | Failed |
+| COM-07 | [View result](https://app.rova.qa/results/83db06d7-6f4b-461d-b0bc-ff37973fdbf1) | Passed |
+| COM-08 | No result record | Stopped |
+| COM-09 | No result record | Not run |
+| COM-10 | No result record | Not run |
+
+Each completed Suite 6 result page includes the agent's step timeline and a video recording within RovaAI. COM-08 has no result record because the run was stopped during that goal. No manual verification screenshots were captured for Suite 6, because confirming checkout access would have required opening login pages, which was outside the agreed scope.
 
 ## Video evidence
 

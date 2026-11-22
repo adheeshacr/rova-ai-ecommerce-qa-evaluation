@@ -6,7 +6,19 @@ This log separates confirmed application defects from test observations and chec
 
 ## Current status
 
-**No confirmed application defects have been established from the five suite runs documented in this repository.**
+**No confirmed application defects have been established from the six suite runs documented in this repository.**
+
+### Classification summary
+
+| Category | Items |
+|---|---|
+| Confirmed application defects | None |
+| Potential issues requiring requirement clarification | SFS-09 (multiple brand filters not retained together) |
+| Test-design / expected-result mismatches | CSF-08 (category dropdown not present in tested UI); PDS-08 ("cannot be selected" vs selectable but not purchasable) |
+| Authentication restrictions | SCW-01 to SCW-07 and SCW-10; COM-01, COM-03 to COM-07 (cart, wishlist and checkout require sign-in) |
+| WAF / CAPTCHA / environment limitations | NEC-03 (WAF HTTP 405); NEC-04 (slider CAPTCHA) |
+| Listing data and minor observations | PDS-02 (capacity mismatch); SFS-08 (seller price outlier); `www.daraz.lk/wishlist/` and `www.daraz.lk/cart/` generic error pages |
+| RovaAI execution and reporting limitations | Duplicate CSF-08 record; thin or misleading passes (SFS-05, SFS-07, SFS-09); incorrect URL (SCW-09); authentication-blocked goals reported as Failed (Suite 5) or Passed (Suite 6); safety-boundary breaches (Suites 5 and 6) |
 
 | Reference | Observation | Classification | Evidence / next action |
 |---|---|---|---|
@@ -22,6 +34,9 @@ This log separates confirmed application defects from test observations and chec
 | SFS-10 | One automation interaction step failed (element selection); the test recovered and completed. | Automation limitation – no impact on the result | [RovaAI result](https://app.rova.qa/results/ee10dbc6-653f-4c0f-8f26-8006dc883aba). |
 | SCW-01 to SCW-07, SCW-10 | Cart and wishlist actions require a signed-in account: logged-out Add to Cart opens a login pop-up, and the cart URL redirects to login. | Authentication boundary – blocked, not a defect | [Run report](https://app.rova.qa/suites/runs/31e5374f-a403-4b20-9dfc-dd5f20cc30fe). Manually verified on 22 November 2026. Functional cart behaviour remains unverified. |
 | SCW-09 | RovaAI used `www.daraz.lk/wishlist/`, which shows a generic error page. The actual wishlist URL `my.daraz.lk/wishlist/index` redirects to login. | Automation evidence error – conclusion manually confirmed; not a defect | [RovaAI result](https://app.rova.qa/results/cff7e099-75dd-41c7-8857-b2941bcfdce8). |
+| COM-01, COM-03 to COM-07 | Logged-out Add to Cart and Buy Now open a login pop-up; cart access requires sign-in; no guest checkout available. | Authentication boundary – blocked, not a defect | [Run report](https://app.rova.qa/suites/runs/a5bc6090-deb7-43e9-ab37-25d17af3d035). Checkout functionality remains unverified. |
+| COM (cart URL) | `www.daraz.lk/cart/` shows a generic error page; `cart.daraz.lk/cart` redirects to login. | Minor observation – not a confirmed defect | Recorded during Suite 6 execution. |
+| COM-08 to COM-10 | Run stopped during COM-08 after the agent attempted to type into the sign-up phone-number field; COM-09 and COM-10 not run. | RovaAI safety-boundary breach – not an application issue | See Suite 6 detail below and the [RovaAI evaluation](../06-tool-evaluation/limitations-and-observations.md). |
 
 ## CSF-08 investigation detail
 
@@ -137,6 +152,14 @@ Requiring authentication for cart and wishlist access is recorded as an observat
 
 For SCW-09, RovaAI's evidence came from `https://www.daraz.lk/wishlist/`, which is not the wishlist page and displays a generic error page. The conclusion that the wishlist requires authentication was confirmed independently using the actual wishlist URL.
 
+## Suite 6 follow-up detail (Checkout & Order Management)
+
+RovaAI completed 7 of 10 goals (5 passed, 2 failed) before the run was stopped for safety. All completed goals reached Daraz.lk's authentication boundary: checkout could not be accessed without signing in, so delivery address, delivery options, order summary, totals, payment methods and validation at checkout remain unverified. The passes for COM-01, COM-03, COM-04 and COM-07 confirm the login requirement only.
+
+`https://www.daraz.lk/cart/` displayed a generic error page, whereas `https://cart.daraz.lk/cart` redirected to login. This is recorded as a minor observation, similar to the incorrect wishlist URL in Suite 5, and **not as a defect**.
+
+The run was stopped during COM-08 because the RovaAI agent, despite instructions not to open login or registration pages, repeatedly opened them and then attempted to type into the sign-up phone-number field. Step timelines for COM-01 to COM-07 show no personal data entered. COM-08 has no result record, so **it cannot be fully confirmed whether any text was entered during that attempt**. No SMS verification, account creation, payment or order submission occurred. This is a testing-agent limitation, not a Daraz.lk issue. No defect ID has been created.
+
 ## Defect reporting decision
 
 A defect should be raised only when there is sufficient evidence of repeatable application behaviour that violates an agreed expected result. For each future confirmed defect, capture:
@@ -149,4 +172,4 @@ A defect should be raised only when there is sufficient evidence of repeatable a
 - Severity, priority and affected workflow.
 - Re-test result and closure status.
 
-The WAF, CAPTCHA and category-dropdown observations remain follow-up items, the Suite 3 findings (PDS-02, PDS-08, PDS-10) are documented observations, and the Suite 4 findings (SFS-05, SFS-07, SFS-08, SFS-09, SFS-10) are documented observations. SFS-09 is a manual failure against the current expected result that requires requirement clarification. The Suite 5 findings (authentication boundary for SCW-01 to SCW-07 and SCW-10; incorrect evidence URL for SCW-09) are documented observations. None is a confirmed product defect.
+The WAF, CAPTCHA and category-dropdown observations remain follow-up items, the Suite 3 findings (PDS-02, PDS-08, PDS-10) are documented observations, and the Suite 4 findings (SFS-05, SFS-07, SFS-08, SFS-09, SFS-10) are documented observations. SFS-09 is a manual failure against the current expected result that requires requirement clarification. The Suite 5 findings (authentication boundary for SCW-01 to SCW-07 and SCW-10; incorrect evidence URL for SCW-09) are documented observations, and the Suite 6 findings (authentication boundary for COM-01 and COM-03 to COM-07; cart URL observation; run stopped for safety) are documented observations. None is a confirmed product defect.

@@ -2,7 +2,7 @@
 
 ## 1. Executive summary
 
-Five RovaAI suites were executed against Daraz.lk, covering **52 distinct test goals**. The Negative & Edge Case run contains 12 executions, and the Product Details & Product Selection, Search, Filters & Sorting and Shopping Cart & Wishlist runs contain 10 each. The Core suite's shared report contains 11 execution records because the category-dropdown scenario appears twice (once passed and once failed).
+Six RovaAI suites were created with **62 distinct test goals**. Suites 1–5 ran to completion; Suite 6 (Checkout & Order Management) was deliberately stopped partway for safety, with 7 goals completed, 1 stopped partway and 2 not run. The Negative & Edge Case run contains 12 executions, and the Product Details & Product Selection, Search, Filters & Sorting and Shopping Cart & Wishlist runs contain 10 each. The Core suite's shared report contains 11 execution records because the category-dropdown scenario appears twice (once passed and once failed).
 
 | Evidence source | Reported executions | Passed | Failed | Pending | Completion |
 |---|---:|---:|---:|---:|---:|
@@ -12,10 +12,11 @@ Five RovaAI suites were executed against Daraz.lk, covering **52 distinct test g
 | Product Details & Product Selection | 10 | 10 | 0 | 0 | 100% |
 | Search, Filters & Sorting | 10 | 10 | 0 | 0 | 100% |
 | Shopping Cart & Wishlist | 10 | 2 | 8 | 0 | 100% |
+| Checkout & Order Management (stopped for safety) | 7 completed; 1 stopped; 2 not run | 5 | 2 | – | 70% (reported) |
 
 **Data reconciliation note:** The Core run's separate statistics panel showed 10/10 passed, while its subsequently reviewed shared report showed 11 execution records, 10 passed and 1 failed. The shared report lists the Category dropdown scenario twice: a 749.3-second passed execution and an 894.0-second failed execution. The detailed failed execution was reviewed and is documented below. These records cannot safely be collapsed into a single definitive Core pass rate without resolving the discrepancy in RovaAI. For transparency, this report preserves both source summaries rather than silently choosing one.
 
-Across the five suites there are **52 distinct test goals** and **53 visible execution records** when the duplicate Core dropdown execution is counted. Adding the visible RovaAI execution outcomes gives 42 passed and 11 failed records; this is an execution-record count, not a unique-test-goal pass rate. A RovaAI pass status does not by itself establish complete coverage of a goal. Manual verification findings are tracked separately from RovaAI statuses: see the Suite 3 follow-up in section 4 the Suite 4 follow-up in section 5, where SFS-09 failed manual verification despite a RovaAI pass, and the Suite 5 classification in section 6, where eight RovaAI failures are attributed to the authentication boundary rather than application defects.
+Across the six suites there are **62 distinct test goals**, of which 59 produced a RovaAI result, and **60 visible execution records** when the duplicate Core dropdown execution is counted. Adding the visible RovaAI execution outcomes gives 47 passed and 13 failed records, with 3 Suite 6 goals not completed; this is an execution-record count, not a unique-test-goal pass rate. A RovaAI pass status does not by itself establish complete coverage of a goal. Manual verification findings are tracked separately from RovaAI statuses: see the Suite 3 follow-up in section 4 the Suite 4 follow-up in section 5, where SFS-09 failed manual verification despite a RovaAI pass, and the Suite 5 classification in section 6, where eight RovaAI failures are attributed to the authentication boundary rather than application defects, and the Suite 6 interpretation in section 7, where RovaAI passes confirm only the login requirement.
 
 ## 2. Core Shopping Flow Validation
 
@@ -274,7 +275,55 @@ Screenshots of the Add to Cart and wishlist login prompts are indexed in the [ev
 - **Incorrect URL in SCW-09.** The agent treated an error page at a non-existent URL as evidence; independent verification was needed to confirm the conclusion.
 - Further detail is recorded in the [observations and investigation log](../05-defect-management/observations-and-investigation.md) and the [RovaAI evaluation](../06-tool-evaluation/limitations-and-observations.md).
 
-## 7. Failure analysis and follow-up
+## 7. Checkout & Order Management
+
+### 7.1 RovaAI automated execution
+
+- Suite: Daraz.lk – Checkout & Order Management
+- Run report: [Open RovaAI run](https://app.rova.qa/suites/runs/a5bc6090-deb7-43e9-ab37-25d17af3d035)
+- Project / environment: Ecommerce WebApp / Staging Env. Application under test: https://www.daraz.lk/
+- Execution date: 22 November 2026.
+- Runtime configuration: sequential, Chromium, 1 retry (as configured), Stop on Failure off; Desktop Chrome device profile active.
+- Goals configured: 10.
+- Completed goals: **7** (COM-01 to COM-07).
+- Stopped partway: **1** (COM-08).
+- Not run: **2** (COM-09, COM-10).
+- RovaAI result among completed goals: **5 passed, 2 failed**.
+- Reported completion: **70%**. The run was deliberately stopped at approximately 24 minutes 35 seconds; after the stop, RovaAI displays the total duration as 0:00.
+- All goals were executed logged out.
+
+| ID | Test goal | RovaAI status | Duration | Steps | Result report | Observed behaviour | QA interpretation |
+|---|---|---|---:|---:|---|---|---|
+| COM-01 | Verify checkout navigation from shopping cart | Passed | 78.4s | 7 | [View result](https://app.rova.qa/results/97154ef8-56a7-4469-91ff-f5213e82ce85) | Add to Cart opened a login pop-up; the header cart icon redirected to the login page. | Login requirement observed; checkout not reached |
+| COM-02 | Verify authentication requirement for checkout access | Passed | 29.7s | 5 | [View result](https://app.rova.qa/results/60fac18b-25e8-46ac-a6ce-95c97d4ce1e1) | Buy Now opened a login pop-up; no guest checkout option was offered. | Pass – authentication requirement confirmed |
+| COM-03 | Verify delivery address section during checkout | Passed | 27.3s | 4 | [View result](https://app.rova.qa/results/a12fafc1-fb91-4195-b3c5-6b13fa300e8f) | Buy Now opened a login pop-up; the delivery address section was never displayed. | Blocked by login; address section not checked |
+| COM-04 | Verify available delivery options during checkout | Passed | 174.3s | 27 | [View result](https://app.rova.qa/results/76f4a7c6-d38d-4f38-8f2a-533df1dc63cd) | Product page showed Standard delivery (Rs. 410) and Cash on Delivery; checkout delivery options were blocked by login. | Product-page delivery information observed; checkout delivery options not checked |
+| COM-05 | Verify checkout order summary product information | Failed | 211.7s | 31 | [View result](https://app.rova.qa/results/7a80d595-b3a5-42fd-b6a1-5ffd528661d3) | Cart and checkout could not be reached; cart access redirected to login or registration. | Blocked by login |
+| COM-06 | Verify checkout subtotal and delivery charges | Failed | 170.2s | 25 | [View result](https://app.rova.qa/results/0723f66e-3744-45e6-9083-17b86b4e2362) | The cart URL redirected to registration; totals could not be observed. | Blocked by login |
+| COM-07 | Verify available payment methods during checkout | Passed | 30.8s | 4 | [View result](https://app.rova.qa/results/83db06d7-6f4b-461d-b0bc-ff37973fdbf1) | Buy Now opened a login pop-up; only "Cash on Delivery Available" on the product page and footer payment logos were seen. | Product-page information only; checkout payment methods not checked |
+| COM-08 | Verify required-field validation in checkout form | Stopped | – | – | No result record | Run stopped during this goal after the agent attempted to type into the sign-up phone-number field. | Stopped for safety – not executed |
+| COM-09 | Verify navigation from checkout back to shopping cart | Not run | – | – | No result record | Cancelled when the run was stopped. | Not run |
+| COM-10 | Verify no final order submission without explicit confirmation | Not run | – | – | No result record | Cancelled when the run was stopped. | Not run |
+
+**Actual checkout features remained unverified.** Only COM-02 tested what it set out to test. The other RovaAI passes (COM-01, COM-03, COM-04, COM-07) were awarded because the configured expected outcomes allowed "or authentication is required"; they confirm the login requirement, not the checkout behaviour.
+
+### 7.2 Why the run was stopped
+
+The suite description instructed the agent not to open login or registration pages. From COM-04 onwards the agent repeatedly opened Daraz.lk sign-up, register and login pages and stated an intention to create an account. During COM-08 the agent's reasoning reported that "the previous attempt to type into the phone field failed" in the sign-up form. The run was stopped immediately to prevent any further attempt to enter personal data.
+
+- Step timelines for COM-01 to COM-07 were reviewed: no phone number, email address, password or delivery address was entered.
+- COM-08 has no result record because the run was stopped, so its steps could not be reviewed. **It cannot be fully confirmed whether any text was entered into the phone-number field during that attempt.**
+- No SMS verification code was sent or entered, no account was created, no payment details were entered, and no order was submitted. The checkout page was never reached.
+- Products used by the agent were ordinary items (a body weighing scale, an Apple iPhone MagSafe accessory, a phone case and a men's T-shirt); no age-restricted product or age confirmation was involved.
+
+### 7.3 Observations
+
+- Logged-out Add to Cart and Buy Now actions opened a login pop-up; cart access required authentication; no guest checkout was available during testing.
+- `https://www.daraz.lk/cart/` displayed a generic "We're Sorry, an error has occurred" page, while `https://cart.daraz.lk/cart` redirected to login. Recorded as a minor observation, not a confirmed defect.
+- The login pop-up frequently loaded blank in the automated browser, producing long, repetitive goals (up to 211.7 seconds).
+- **No confirmed Daraz.lk application defects were identified.** Details are in the [observations and investigation log](../05-defect-management/observations-and-investigation.md).
+
+## 8. Failure analysis and follow-up
 
 ### NEC-03 – WAF interstitial
 **Classification:** Inconclusive application check / environment or security-layer interference.
@@ -291,8 +340,8 @@ The CAPTCHA prevented the automated browser from submitting the malformed identi
 
 The failed replay did not identify the dropdown control expected by the test. Clarify the intended navigation component and align the test steps with the current UI before rerunning. Do not log this as a confirmed defect based on the available evidence.
 
-## 8. Overall conclusion
+## 9. Overall conclusion
 
-The five suites cover 52 distinct test goals and reached 100% execution completion. The Negative & Edge Case suite has a clear result of 10 passed and 2 blocked/failed checks. The Core suite has conflicting aggregate evidence: a separate statistics panel reports 10/10 passed, while the shared report shows 11 execution records with 10 passed and 1 failed due to a duplicate category-dropdown scenario.
+The six suites cover 62 distinct test goals. Suites 1–5 reached 100% execution completion; Suite 6 was stopped for safety at a reported 70% completion. The Negative & Edge Case suite has a clear result of 10 passed and 2 blocked/failed checks. The Core suite has conflicting aggregate evidence: a separate statistics panel reports 10/10 passed, while the shared report shows 11 execution records with 10 passed and 1 failed due to a duplicate category-dropdown scenario.
 
-This discrepancy is explicitly retained for auditability. The Product Details & Product Selection suite was reported by RovaAI as 10/10 passed; manual follow-up confirmed the PDS-10 navigation and reload behaviour and reclassified PDS-08 as an expected-result mismatch rather than a clean pass against the configured wording. The Search, Filters & Sorting suite was also reported by RovaAI as 10/10 passed; manual checks confirmed SFS-05, SFS-07 and SFS-08 sorting, but SFS-09 failed manual verification because two brand filters could not be kept applied together, pending requirement clarification. The Shopping Cart & Wishlist suite was reported by RovaAI as 2 passed and 8 failed; the eight failures were caused by Daraz.lk's authentication requirement for cart and wishlist access, so cart and wishlist functionality beyond the login boundary remains unverified. The observed failures and follow-up findings are not, on current evidence, confirmed application defects. The project demonstrates test planning, scenario design, review of AI-assisted execution, evidence interpretation and transparent reporting. No checkout or payment was completed.
+This discrepancy is explicitly retained for auditability. The Product Details & Product Selection suite was reported by RovaAI as 10/10 passed; manual follow-up confirmed the PDS-10 navigation and reload behaviour and reclassified PDS-08 as an expected-result mismatch rather than a clean pass against the configured wording. The Search, Filters & Sorting suite was also reported by RovaAI as 10/10 passed; manual checks confirmed SFS-05, SFS-07 and SFS-08 sorting, but SFS-09 failed manual verification because two brand filters could not be kept applied together, pending requirement clarification. The Shopping Cart & Wishlist suite was reported by RovaAI as 2 passed and 8 failed; the eight failures were caused by Daraz.lk's authentication requirement for cart and wishlist access, so cart and wishlist functionality beyond the login boundary remains unverified. The Checkout & Order Management suite completed 7 of 10 goals (5 passed and 2 failed in RovaAI) before it was stopped because the agent attempted to type into a sign-up phone-number field; only the authentication requirement was confirmed and no checkout functionality was verified. The observed failures and follow-up findings are not, on current evidence, confirmed application defects. The project demonstrates test planning, scenario design, review of AI-assisted execution, evidence interpretation and transparent reporting. No account was created, and no checkout, payment or order was completed.

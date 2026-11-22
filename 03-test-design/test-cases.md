@@ -1,4 +1,4 @@
-# Test Design – 52 Test Goals
+# Test Design – 62 Test Goals
 
 The following test goals were configured in RovaAI. Expected behaviours below describe the intended validation; actual outcomes are recorded separately in the [execution report](../04-test-execution/execution-report.md).
 
@@ -110,6 +110,27 @@ Test goal titles and expected outcomes are recorded as configured in RovaAI. The
 
 On Daraz.lk, adding to the cart, viewing the cart, adding to the wishlist and viewing the wishlist all require a signed-in account. Because this project does not sign in or create accounts, SCW-02 to SCW-07 and the cart and wishlist parts of SCW-09 and SCW-10 cannot be fully exercised. Functional cart and wishlist behaviour beyond the login boundary would require an approved test account and a separate test design.
 
+## Suite F – Checkout & Order Management (10)
+
+Test goal titles and expected outcomes are recorded as configured in RovaAI. The suite description instructs the agent not to open login or registration pages, create accounts, sign in, enter payment details, submit orders or confirm purchases, and to stop before any irreversible checkout action.
+
+| ID | Test goal | Expected behaviour (as configured in RovaAI) |
+|---|---|---|
+| COM-01 | Verify checkout navigation from shopping cart | The checkout action navigates to the appropriate checkout page or displays the authentication requirement. |
+| COM-02 | Verify authentication requirement for checkout access | If authentication is required, the application clearly displays the login requirement without creating an account or signing in. |
+| COM-03 | Verify delivery address section during checkout | The delivery address section displays the appropriate fields or clearly indicates that authentication is required. |
+| COM-04 | Verify available delivery options during checkout | Available delivery methods and their relevant information are displayed correctly, or access restrictions are identified. |
+| COM-05 | Verify checkout order summary product information | The order summary displays the correct product name, image, selected variation and quantity. |
+| COM-06 | Verify checkout subtotal and delivery charges | The subtotal, delivery charges and total amount are displayed consistently with the cart information. |
+| COM-07 | Verify available payment methods during checkout | Available payment methods are displayed clearly, or authentication restrictions are recorded. |
+| COM-08 | Verify required-field validation in checkout form | Required delivery fields display appropriate validation messages when left empty. Do not submit an order. |
+| COM-09 | Verify navigation from checkout back to shopping cart | The user can return to the cart without unexpected errors or broken navigation. |
+| COM-10 | Verify no final order submission without explicit confirmation | The final order submission control is identifiable, and the test stops before clicking any Place Order, Confirm Order or payment submission button. |
+
+### Suite F – Coverage note
+
+Several Suite F expected outcomes accept either the functional result or a recorded authentication restriction ("…or authentication is required"). A RovaAI pass for those goals therefore confirms the login requirement, not the checkout feature. In a future revision, separate the authentication check (COM-02) from functional checkout checks, which require an approved authenticated test account. COM-08 to COM-10 were not completed because the run was stopped for safety.
+
 ## Coverage and traceability notes
 
 - The earlier historical Core suite run was incomplete (7 passed, 1 failed, 2 pending). The later execution evidence includes a complete run, but its shared report lists the CSF-08 category-navigation goal twice with conflicting outcomes. Refer to the [execution report](../04-test-execution/execution-report.md) for the reconciliation.
@@ -118,4 +139,5 @@ On Daraz.lk, adding to the cart, viewing the cart, adding to the wishlist and vi
 - Suite C (PDS-01 to PDS-10) uses live Daraz.lk listings, so the products selected by RovaAI can differ between runs. PDS-08 and PDS-10 required manual follow-up to interpret the expected behaviour and to cover navigation actions the automated run did not perform.
 - Suite D (SFS-01 to SFS-10) also uses live Daraz.lk listings and filter values. SFS-05 and SFS-07 were confirmed manually because the automated evidence was limited, and SFS-09 required manual verification of multi-brand filtering.
 - Suite E (SCW-01 to SCW-10) was executed logged out. Most goals reached the authentication boundary; see the [execution report](../04-test-execution/execution-report.md) for the classification of each goal.
+- Suite F (COM-01 to COM-10) was executed logged out and stopped partway for safety; no checkout functionality was verified. See the [execution report](../04-test-execution/execution-report.md).
 - Test-case expected behaviour should be based on an agreed requirement and the actual interface, not an assumed control label or layout.

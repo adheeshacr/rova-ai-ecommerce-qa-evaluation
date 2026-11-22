@@ -1,69 +1,129 @@
-# RovaAI – AI-Powered QA Platform Evaluation
+# RovaAI QA Evaluation – Daraz.lk E-commerce Workflows
 
-A practical QA portfolio project evaluating **RovaAI** using real e-commerce workflows on **Daraz.lk**. The project demonstrates test planning, test design, AI-assisted test execution, result analysis, and evidence-based reporting.
+A hands-on QA portfolio project that evaluates **RovaAI**, an AI-assisted browser testing platform, against real customer-facing workflows on **Daraz.lk**. It covers test planning, test design, AI-assisted execution, manual verification, investigation of failed and inconsistent results, and evidence-based reporting.
+
+## Project context
+
+This project was carried out as part of the **Testers Connect** cohort. The test suites, executions and findings were produced through cohort collaboration; this repository documents my portfolio write-up, analysis and evidence review of that work. It is not presented as an independently completed project.
 
 ## Project at a glance
 
 | Item | Details |
 |---|---|
-| Application under test | [Daraz.lk](https://www.daraz.lk/) |
-| QA platform | [RovaAI](https://app.rova.qa/) |
-| Test environment | Staging Env (RovaAI project: Ecommerce WebApp) |
-| Project progress | 5 of 6 planned suites executed and documented |
-| Scope (completed suites) | 5 suites, 52 distinct test goals |
-| Visible execution records | 53 (includes a duplicate Core category-dropdown execution) |
-| Portfolio focus | Functional, negative, edge-case and workflow validation |
+| Application under test | [Daraz.lk](https://www.daraz.lk/) (public, logged-out customer journeys) |
+| Testing platform | [RovaAI](https://app.rova.qa/) – natural-language test goals executed by an AI browser agent |
+| RovaAI project / environment | Ecommerce WebApp / Staging Env |
+| Test suites | 6 planned and created; 5 run to completion, Suite 6 stopped partway for safety |
+| Test goals | 62 designed; 59 produced a RovaAI result; 3 Suite 6 goals not completed |
 | Execution window | 20–22 November 2026 |
+| Testing approach | Black-box functional, negative and edge-case testing; manual follow-up on questionable results |
+| Constraints | No sign-in, account creation, checkout, payment or order placement |
 
-## Execution summary and reporting note
+## Objectives
 
-| Suite | Distinct test goals | Visible execution records | Reported result |
-|---|---:|---:|---|
-| Core Shopping Flow Validation | 10 | 11 | Shared report: 10 passed, 1 failed (90.91%); separate run-statistics panel: 10 passed, 0 failed |
-| Negative & Edge Case Scenarios | 12 | 12 | 10 passed, 2 failed; 100% completion |
-| Product Details & Product Selection | 10 | 10 | 10 passed, 0 failed; 100% completion. PDS-08 and PDS-10 needed manual follow-up; see execution report |
-| Search, Filters & Sorting | 10 | 10 | 10 passed, 0 failed; 100% completion. SFS-09 failed manual verification; SFS-05 and SFS-07 confirmed manually; see execution report |
-| Shopping Cart & Wishlist | 10 | 10 | 2 passed, 8 failed; 100% completion. The 8 failures were blocked by Daraz.lk's login requirement, not confirmed defects; cart functionality beyond login unverified; see execution report |
+- Translate e-commerce user journeys into clear, testable goals.
+- Execute those goals with an AI testing agent and review the evidence it produces.
+- Investigate failed, blocked and inconsistent results rather than accepting tool statuses at face value.
+- Distinguish application defects from authentication restrictions, test-design issues, environment controls and automation limitations.
+- Evaluate RovaAI's practical strengths and limitations as a QA tool.
 
-The Core suite's shared report lists the category-dropdown scenario twice, once passed (749.3s) and once failed (894.0s). The separate statistics panel supplied earlier showed 10/10 passed. This conflict is documented in the [execution report](04-test-execution/execution-report.md) rather than hidden or averaged away. Counting visible RovaAI records across all five suites gives 42 passed and 11 failed; because one Core goal is duplicated and its sources conflict, this is not presented as a unique-goal pass rate.
+## Scope
 
-**Automated results and manual verification are tracked separately.** The "Reported result" column above shows RovaAI statuses. Manual follow-up can change how a RovaAI pass should be interpreted: for example, SFS-09 (multiple filters) was passed by RovaAI but failed manual verification because two brand filters could not be kept applied together, PDS-08 was reclassified as an expected-result mismatch, and the eight Suite 5 failures were classified as blocked by authentication rather than application defects. For this reason no single combined pass rate is published; see the [execution report](04-test-execution/execution-report.md) for both views.
+**In scope:** homepage and navigation, search, filters and sorting, product detail pages and variations, logged-out cart, wishlist and checkout entry points, login form validation, quantity boundaries, invalid URLs and repeated actions.
 
-The two Negative & Edge Case failures were blocked by an Alibaba Cloud WAF interstitial and a slider CAPTCHA. The failed Core dropdown replay did not find the control expected by the test in the tested UI. These are recorded as inconclusive/environment, automation or test-design observations—not confirmed application defects. The SFS-09 manual failure is pending requirement clarification and is also not a confirmed defect. Suite 5 did not test cart or wishlist functionality beyond the authentication boundary.
+**Out of scope:** signing in, creating accounts, checkout completion, payment, order placement, backend/API security, performance and accessibility certification. Because Daraz.lk requires a signed-in account for the cart, wishlist and checkout, **this project does not validate end-to-end checkout**.
+
+## The six test suites
+
+| # | Suite | Goals | Focus |
+|---|---|---:|---|
+| 1 | Core Shopping Flow Validation (CSF) | 10 | Homepage, search, sorting, product selection, login prompt, category navigation, responsive layout |
+| 2 | Negative & Edge Case Scenarios (NEC) | 12 | Invalid and special-character input, login validation, quantity boundaries, invalid URLs, repeated submissions |
+| 3 | Product Details & Product Selection (PDS) | 10 | Product page content, images, price, ratings, seller, variations, stock, navigation and refresh |
+| 4 | Search, Filters & Sorting (SFS) | 10 | Keyword search, suggestions, no results, category and price filters, sorting, combined and cleared filters |
+| 5 | Shopping Cart & Wishlist (SCW) | 10 | Add to cart, cart details, quantity, subtotal, removal, empty cart, wishlist access, navigation |
+| 6 | Checkout & Order Management (COM) | 10 | Checkout entry, authentication, address, delivery, order summary, totals, payment methods, validation, order boundary |
+
+## Execution summary
+
+RovaAI statuses and manual review are reported **separately**. A RovaAI "pass" sometimes only confirmed that a login prompt appeared, and some RovaAI failures were caused by authentication or security controls rather than defects, so no single combined pass rate is published.
+
+| Suite | RovaAI-reported result | Completion | Duration | QA interpretation |
+|---|---|---:|---:|---|
+| 1. Core Shopping Flow | Conflicting sources: run statistics 10/10 passed; shared report 11 records (10 passed, 1 failed) | 100% | – | Category-dropdown goal duplicated with one pass and one fail. The failed replay found no dropdown trigger; this is a test-design / requirement-to-interface mismatch. No definitive pass rate is claimed. |
+| 2. Negative & Edge Cases | 10 passed, 2 failed (12 executions) | 100% | 27m 54s | Both failures were blocked by security controls (WAF HTTP 405; slider CAPTCHA). Not application defects. |
+| 3. Product Details & Selection | 10 passed, 0 failed | 100% | 33m 12s | Passes qualified: PDS-02 seller listing inconsistency; PDS-08 expected result needs refinement; PDS-10 checked with browser commands. |
+| 4. Search, Filters & Sorting | 10 passed, 0 failed | 100% | 9m 11s | SFS-09 (multiple brands) **failed manual verification** despite the RovaAI pass; requirement clarification needed. SFS-05/07/08 confirmed manually. |
+| 5. Shopping Cart & Wishlist | 2 passed, 8 failed | 100% | 15m 59s | All 8 failures were blocked by login. Cart and wishlist functionality beyond login remains unverified. |
+| 6. Checkout & Order Management | 5 passed, 2 failed (7 completed); 1 stopped partway; 2 not run | 70% (reported) | Stopped at ~24m 35s | Run stopped for safety. Only the login requirement was confirmed; **no checkout functionality was verified**. |
+
+Across Suites 1–6 there are **60 visible RovaAI execution records** (including the duplicated Suite 1 record): **47 passed and 13 failed**, with **3 Suite 6 goals not completed**. This is a record count, not a quality score.
+
+## Key findings
+
+- **No confirmed Daraz.lk application defects** were established. Every failure and anomaly was investigated and classified.
+- **Authentication boundary:** logged-out users cannot add to cart, view the cart, use the wishlist or reach checkout. There was no guest checkout during testing. This blocked most of Suites 5 and 6.
+- **Requirement clarification needed – multi-brand filtering (SFS-09):** selecting a second brand replaced the first, and only the last brand was applied, although the URL contained both. Brand combined with another filter type worked.
+- **Test-design mismatches:** the Suite 1 category-dropdown goal assumed a control that was not present in the tested interface; PDS-08's expected result ("cannot be selected") did not match Daraz's "selectable but not purchasable" design.
+- **Security and environment controls:** a WAF interstitial and a slider CAPTCHA prevented two negative tests from reaching the application.
+- **Data observations:** a product title/description capacity mismatch (PDS-02) and an extreme seller price outlier (SFS-08) – listing data, not platform defects.
+- **Minor observations:** `www.daraz.lk/wishlist/` and `www.daraz.lk/cart/` show a generic error page, while the working routes (`my.daraz.lk/wishlist/index`, `cart.daraz.lk/cart`) redirect to login.
+
+## RovaAI evaluation – summary
+
+**Strengths**
+
+- Executes natural-language goals in a real browser without writing automation code.
+- Produces per-goal step timelines, agent reasoning, video recordings, network data and suite-level reports.
+- Handled straightforward search, product, filtering and sorting checks quickly (Suite 4 in 9 minutes 11 seconds).
+
+**Limitations**
+
+- Status labels need human review: some passes were misleading (SFS-09) or based on thin evidence (SFS-05, SFS-07); authentication-blocked goals were reported as failures (Suite 5) or as passes (Suite 6).
+- Could not proceed past WAF and CAPTCHA controls.
+- Repetitive behaviour when the login pop-up loaded blank, adding long, looping steps.
+- One report listed a duplicated execution with conflicting outcomes (Suite 1).
+- **Safety-boundary concerns:** in Suites 5 and 6 the agent opened registration and login flows despite instructions not to; in Suite 5 it selected an adult product and clicked an age confirmation; in Suite 6 it attempted to type into a sign-up phone-number field, and the run was stopped. No account was created and no SMS verification, payment or order occurred, but whether any text was entered in that final attempt could not be fully confirmed.
+
+Full detail: [RovaAI evaluation](06-tool-evaluation/limitations-and-observations.md).
+
+## Evidence
+
+- [Evidence index](evidence/evidence-index.md) – all suite run reports, individual result links, replays, manual reproduction links and screenshots.
+- Suite run reports:
+  - [Core Shopping Flow – run](https://app.rova.qa/suites/runs/40b15ceb-bcee-4873-831a-29606391b785) · [shared report](https://app.rova.qa/reports/share/40b15ceb-bcee-4873-831a-29606391b785?type=suite)
+  - [Negative & Edge Case – run](https://app.rova.qa/suites/runs/02b1a04f-71b3-4cdf-ac8b-0e67f5620b13)
+  - [Product Details & Product Selection – run](https://app.rova.qa/suites/runs/48f0f4d5-be13-46e5-8057-1512967b0ba9)
+  - [Search, Filters & Sorting – run](https://app.rova.qa/suites/runs/8d8e3e97-4286-4e44-80d3-6f2d2c360092)
+  - [Shopping Cart & Wishlist – run](https://app.rova.qa/suites/runs/31e5374f-a403-4b20-9dfc-dd5f20cc30fe)
+  - [Checkout & Order Management – run (stopped)](https://app.rova.qa/suites/runs/a5bc6090-deb7-43e9-ab37-25d17af3d035)
+- Manual verification screenshots for Suites 3, 4 and 5 are stored in the [evidence folder](evidence/evidence-index.md).
+
+RovaAI links are external and may require an authenticated RovaAI session.
 
 ## Repository guide
 
-- [Project overview](01-project-overview/project-overview.md): context, objectives, scope and approach.
-- [Test plan](02-test-planning/test-plan.md): strategy, environment, execution approach and risks.
-- [Test cases](03-test-design/test-cases.md): the 52 documented test goals and expected behaviours.
-- [Execution report](04-test-execution/execution-report.md): run references, results and analysis.
-- [Defect and investigation log](05-defect-management/observations-and-investigation.md): observations distinguished from confirmed defects.
-- [RovaAI evaluation](06-tool-evaluation/limitations-and-observations.md): platform observations and automation constraints.
-- [Evidence index](evidence/evidence-index.md): suite runs, individual results and replays.
+| Document | Contents |
+|---|---|
+| [Project overview](01-project-overview/project-overview.md) | Context, objectives, environment, scope and success criteria |
+| [Test plan](02-test-planning/test-plan.md) | Strategy, coverage model, suite configuration, safety rules, risks and result classification |
+| [Test cases](03-test-design/test-cases.md) | All 62 test goals with expected behaviour and coverage notes |
+| [Execution report](04-test-execution/execution-report.md) | RovaAI results, manual verification and QA interpretation for each suite |
+| [Defect and investigation log](05-defect-management/observations-and-investigation.md) | Observations and investigations, separated from confirmed defects |
+| [RovaAI evaluation](06-tool-evaluation/limitations-and-observations.md) | Tool strengths, limitations and safety observations |
+| [Evidence index](evidence/evidence-index.md) | Run reports, result links, replays and screenshots |
 
-## Main execution evidence
+## Conclusion and learning outcomes
 
-- [Core Shopping Flow – run](https://app.rova.qa/suites/runs/40b15ceb-bcee-4873-831a-29606391b785)
-- [Core Shopping Flow – shared report](https://app.rova.qa/reports/share/40b15ceb-bcee-4873-831a-29606391b785?type=suite)
-- [Negative & Edge Case – run](https://app.rova.qa/suites/runs/02b1a04f-71b3-4cdf-ac8b-0e67f5620b13)
-- [Product Details & Product Selection – run](https://app.rova.qa/suites/runs/48f0f4d5-be13-46e5-8057-1512967b0ba9)
-- [Search, Filters & Sorting – run](https://app.rova.qa/suites/runs/8d8e3e97-4286-4e44-80d3-6f2d2c360092)
-- [Shopping Cart & Wishlist – run](https://app.rova.qa/suites/runs/31e5374f-a403-4b20-9dfc-dd5f20cc30fe)
+The project shows that an AI testing agent can execute and document browser-based test goals quickly, but its results need disciplined human review. Several tool-reported outcomes changed meaning after investigation: a pass that did not test the stated behaviour, failures caused by security controls or login requirements, and a duplicated report record. Coverage of cart, wishlist and checkout was limited by the authentication boundary, and that limitation is stated rather than hidden.
 
-## Skills demonstrated
+Key learning outcomes:
 
-- Translating e-commerce user journeys into testable scenarios.
-- Designing positive, negative, boundary and edge-condition coverage.
-- Reviewing AI-driven browser execution and test evidence.
-- Distinguishing application behaviour from environment and automation limitations.
-- Reconciling inconsistent test reports and documenting evidence limitations.
-- Reporting results transparently without overstating defects or coverage.
-
-## Scope boundaries
-
-This is a black-box evaluation of selected Daraz.lk user-facing workflows, not a full security, API, performance, accessibility or production-readiness assessment. No checkout or payment was completed. Logged-out Add to Cart / Buy Now checks were limited to verifying the authentication prompt or redirect.
-
-Results are specific to the recorded test sessions and environment; they are not a guarantee of overall application quality. Manual verification screenshots for Suites 3, 4 and 5 are stored in the evidence folder; RovaAI reports, replay links and manual reproduction links are indexed in the evidence file.
+- Writing test goals with precise, verifiable expected results – and splitting ambiguous scenarios.
+- Treating automated statuses as evidence to be reviewed, not as conclusions.
+- Classifying outcomes accurately: confirmed defect, requirement clarification, test-design mismatch, authentication restriction, environment control or tool limitation.
+- Setting and enforcing safety boundaries for autonomous testing agents, including stopping a run when they are breached.
+- Reporting coverage gaps and uncertainty honestly.
 
 ---
-*Prepared as a hands-on QA portfolio project. Test outcomes and reporting limitations are stated against the linked RovaAI evidence.*
+*QA portfolio project completed with the Testers Connect cohort. Results are specific to the recorded test sessions and environment and are not a guarantee of overall application quality.*
