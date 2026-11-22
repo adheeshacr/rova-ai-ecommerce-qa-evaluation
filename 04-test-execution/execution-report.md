@@ -2,7 +2,7 @@
 
 ## 1. Executive summary
 
-Three RovaAI suites were executed against Daraz.lk, covering **32 distinct test goals**. The Negative & Edge Case run contains 12 executions and the Product Details & Product Selection run contains 10. The Core suite's shared report contains 11 execution records because the category-dropdown scenario appears twice (once passed and once failed).
+Four RovaAI suites were executed against Daraz.lk, covering **42 distinct test goals**. The Negative & Edge Case run contains 12 executions, and the Product Details & Product Selection and Search, Filters & Sorting runs contain 10 each. The Core suite's shared report contains 11 execution records because the category-dropdown scenario appears twice (once passed and once failed).
 
 | Evidence source | Reported executions | Passed | Failed | Pending | Completion |
 |---|---:|---:|---:|---:|---:|
@@ -10,10 +10,11 @@ Three RovaAI suites were executed against Daraz.lk, covering **32 distinct test 
 | Core Shopping Flow – separate run-statistics panel supplied earlier | 10 | 10 | 0 | 0 | 100% |
 | Negative & Edge Case Scenarios | 12 | 10 | 2 | 0 | 100% |
 | Product Details & Product Selection | 10 | 10 | 0 | 0 | 100% |
+| Search, Filters & Sorting | 10 | 10 | 0 | 0 | 100% |
 
 **Data reconciliation note:** The Core run's separate statistics panel showed 10/10 passed, while its subsequently reviewed shared report showed 11 execution records, 10 passed and 1 failed. The shared report lists the Category dropdown scenario twice: a 749.3-second passed execution and an 894.0-second failed execution. The detailed failed execution was reviewed and is documented below. These records cannot safely be collapsed into a single definitive Core pass rate without resolving the discrepancy in RovaAI. For transparency, this report preserves both source summaries rather than silently choosing one.
 
-Across the three suites there are **32 distinct test goals** and **33 visible execution records** when the duplicate Core dropdown execution is counted. Adding the visible execution outcomes gives 30 passed and 3 failed records; this is an execution-record count, not a unique-test-goal pass rate. A RovaAI pass status does not by itself establish complete coverage of a goal; see the Suite 3 manual follow-up in section 4.
+Across the four suites there are **42 distinct test goals** and **43 visible execution records** when the duplicate Core dropdown execution is counted. Adding the visible RovaAI execution outcomes gives 40 passed and 3 failed records; this is an execution-record count, not a unique-test-goal pass rate. A RovaAI pass status does not by itself establish complete coverage of a goal. Manual verification findings are tracked separately from RovaAI statuses: see the Suite 3 follow-up in section 4 and the Suite 4 follow-up in section 5, where SFS-09 failed manual verification despite a RovaAI pass.
 
 ## 2. Core Shopping Flow Validation
 
@@ -154,7 +155,60 @@ Two goals were re-checked manually on Daraz.lk on 22 November 2026 because their
 - **Live data:** products were chosen by the agent from live listings, so the specific products tested may differ on a rerun.
 - Detailed observations are recorded in the [observations and investigation log](../05-defect-management/observations-and-investigation.md).
 
-## 5. Failure analysis and follow-up
+## 5. Search, Filters & Sorting
+
+### 5.1 RovaAI automated execution
+
+- Suite: Daraz.lk – Search, Filters & Sorting
+- Run report: [Open RovaAI run](https://app.rova.qa/suites/runs/8d8e3e97-4286-4e44-80d3-6f2d2c360092)
+- Project / environment: Ecommerce WebApp / Staging Env. Application under test: https://www.daraz.lk/
+- Execution date: 22 November 2026.
+- Runtime configuration: sequential, Chromium, 0 retries, Stop on Failure off.
+- Goals: 10.
+- RovaAI result: 10 passed, 0 failed, 0 pending.
+- Execution completion: 100%.
+- Total execution time: 9 minutes 11 seconds.
+
+| ID | Test goal | RovaAI result | Duration | Steps | Result report | RovaAI summary |
+|---|---|---|---:|---:|---|---|
+| SFS-01 | Search by valid product keyword | Passed | 24.6s | 4 | [View result](https://app.rova.qa/results/09f4eb5d-51a1-4f91-828e-0439d45c6db1) | "headphones" returned 54,157 results with relevant product titles and refinements. |
+| SFS-02 | Show search suggestions while typing | Passed | 32.2s | 6 | [View result](https://app.rova.qa/results/f0a2c75d-c7c3-40e7-9650-991f223a48a0) | Typing "phone" displayed suggestions; selecting "phone holder" opened its results page. |
+| SFS-03 | Handle searches with no matching products | Passed | 18.0s | 3 | [View result](https://app.rova.qa/results/230ebebb-8b0b-4622-9d41-847175855c12) | A random string returned 0 items with a clear "Search No Result" message and no errors. |
+| SFS-04 | Search using multiple keywords | Passed | 18.8s | 2 | [View result](https://app.rova.qa/results/12293fc9-40ab-4f5b-8b3c-07a72b4d27f1) | "wireless bluetooth headphones" returned 41,563 results relevant to all terms. |
+| SFS-05 | Filter search results by category | Passed | 20.9s | 3 | [View result](https://app.rova.qa/results/1186d2f2-b6e3-4a2e-bd12-ec6343791b48) | "phone" search filtered to Micro SD Cards; RovaAI verified only the page heading. Confirmed manually (4.2). |
+| SFS-06 | Filter products by minimum and maximum price | Passed | 193.4s | 12 | [View result](https://app.rova.qa/results/d2a1a1cf-4147-4995-b8e3-8c94ae3aa3a1) | Rs. 1,000–3,000 filter on "headphones"; visible prices checked across several scrolls. |
+| SFS-07 | Sort products by price low to high | Passed | 27.6s | 5 | [View result](https://app.rova.qa/results/be0dec49-60de-4aca-b792-57735ee7e110) | RovaAI checked only four prices (Rs. 29, 64, 92, 100). Confirmed manually (4.2). |
+| SFS-08 | Sort products by price high to low | Passed | 50.5s | 10 | [View result](https://app.rova.qa/results/45d969af-94ae-4ba4-87df-f38422f94734) | "laptop" results in descending order with sort=pricedesc. See price outlier observation (4.3). |
+| SFS-09 | Apply multiple filters together | Passed | 111.5s | 16 | [View result](https://app.rova.qa/results/8e6e5ba0-c4a2-49de-95a3-90d79abc8477) | Final check used Brand: Disney plus Shipped From: Overseas. Two brands together were not established. Manual failure (4.2). |
+| SFS-10 | Clear applied search filters | Passed | 51.5s | 9 | [View result](https://app.rova.qa/results/ee10dbc6-653f-4c0f-8f26-8006dc883aba) | Count changed 48,521 → 427 (Brand: Sanrio) → 48,521 after Clear All. One interaction step failed and the test recovered. |
+
+Individual durations sum to approximately the total execution time, consistent with no retries.
+
+### 5.2 Manual follow-up verification
+
+Manual checks were performed on Daraz.lk on 22 November 2026, read-only and logged out. No Buy Now, Add to Cart, login, checkout or payment action was performed. These results are recorded separately from the RovaAI status above.
+
+| Goal | Manual check | Manual result |
+|---|---|---|
+| SFS-05 | Opened the filtered page [phone + Micro SD Cards](https://www.daraz.lk/phone-micro-sd-cards/?q=phone). The search keyword remained applied and the listed products were micro SD cards. | Confirmed |
+| SFS-07 | Opened [phone sorted by price low to high](https://www.daraz.lk/catalog/?q=phone&sort=priceasc). All 40 products on page 1 were in ascending price order (Rs. 29 to Rs. 236). | Confirmed |
+| SFS-08 | Opened [laptop sorted by price high to low](https://www.daraz.lk/catalog/?q=laptop&sort=pricedesc). All 40 products on page 1 were in descending price order. | Sorting confirmed; seller price outlier noted (5.3) |
+| SFS-09 | Search keyword "phone". Applied two brands (UGREEN + Andoer; Sanrio + Disney), then a third brand (ECHIDNA), then removed the third brand. Compared with Brand: Disney + Shipped From: Overseas. | **Failed against the current expected result** |
+
+**SFS-09 summary.** Selecting a second brand replaced the previously selected brand, and only the latest brand was applied. The URL could contain multiple brand slugs (for example `/sanrio--disney/?q=phone`), but the displayed products matched only the last brand. Removing the latest brand cleared all brand filters instead of restoring the previous selection. The "phone" keyword remained applied throughout. Combining Disney with Shipped From: Overseas worked correctly, and removing Overseas retained Disney. Full detail is in the [observations and investigation log](../05-defect-management/observations-and-investigation.md).
+
+**Classification:** manual failure against the current expected result; requirement clarification needed on whether brand filters are intended to support multiple selections. This is not a confirmed defect, and no defect ID has been created.
+
+### 5.3 Coverage limitations and observations
+
+- **SFS-09 – insufficient automated pass.** RovaAI marked SFS-09 as passed, but its final verification combined a brand with a shipping-location filter. It did not establish that two brand filters remained selected together. During the automated run, RovaAI recorded "Brand: Sanrio" and "Brand: Disney" with 9 items; manual verification showed that those 9 items matched Disney only.
+- **SFS-05 and SFS-07 – thin automated evidence.** RovaAI passed these goals on limited evidence (a page heading; four prices). Both were confirmed by the manual checks in 5.2.
+- **SFS-08 – seller listing data observation.** The top "laptop" result sorted high to low was a UGREEN 67W laptop power adapter listed at Rs. 1,655,266,553. The sort order itself was correct; this is a seller listing data observation, not a sorting defect.
+- **SFS-10 – automation recovery.** One interaction step failed because of an element-selection issue; the agent recovered on the next step and completed the check.
+- **Configuration:** the suite ran with 0 retries. All ten goals showed Draft status before execution and were executable.
+- **No confirmed application defects** were established from Suite 4.
+
+## 6. Failure analysis and follow-up
 
 ### NEC-03 – WAF interstitial
 **Classification:** Inconclusive application check / environment or security-layer interference.
@@ -171,8 +225,8 @@ The CAPTCHA prevented the automated browser from submitting the malformed identi
 
 The failed replay did not identify the dropdown control expected by the test. Clarify the intended navigation component and align the test steps with the current UI before rerunning. Do not log this as a confirmed defect based on the available evidence.
 
-## 6. Overall conclusion
+## 7. Overall conclusion
 
-The three suites cover 32 distinct test goals and reached 100% execution completion. The Negative & Edge Case suite has a clear result of 10 passed and 2 blocked/failed checks. The Core suite has conflicting aggregate evidence: a separate statistics panel reports 10/10 passed, while the shared report shows 11 execution records with 10 passed and 1 failed due to a duplicate category-dropdown scenario.
+The four suites cover 42 distinct test goals and reached 100% execution completion. The Negative & Edge Case suite has a clear result of 10 passed and 2 blocked/failed checks. The Core suite has conflicting aggregate evidence: a separate statistics panel reports 10/10 passed, while the shared report shows 11 execution records with 10 passed and 1 failed due to a duplicate category-dropdown scenario.
 
-This discrepancy is explicitly retained for auditability. The Product Details & Product Selection suite was reported by RovaAI as 10/10 passed; manual follow-up confirmed the PDS-10 navigation and reload behaviour and reclassified PDS-08 as an expected-result mismatch rather than a clean pass against the configured wording. The observed failures and follow-up findings are not, on current evidence, confirmed application defects. The project demonstrates test planning, scenario design, review of AI-assisted execution, evidence interpretation and transparent reporting. No checkout or payment was completed.
+This discrepancy is explicitly retained for auditability. The Product Details & Product Selection suite was reported by RovaAI as 10/10 passed; manual follow-up confirmed the PDS-10 navigation and reload behaviour and reclassified PDS-08 as an expected-result mismatch rather than a clean pass against the configured wording. The Search, Filters & Sorting suite was also reported by RovaAI as 10/10 passed; manual checks confirmed SFS-05, SFS-07 and SFS-08 sorting, but SFS-09 failed manual verification because two brand filters could not be kept applied together, pending requirement clarification. The observed failures and follow-up findings are not, on current evidence, confirmed application defects. The project demonstrates test planning, scenario design, review of AI-assisted execution, evidence interpretation and transparent reporting. No checkout or payment was completed.

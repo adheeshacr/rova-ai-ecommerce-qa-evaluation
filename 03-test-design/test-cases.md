@@ -1,4 +1,4 @@
-# Test Design – 32 Test Goals
+# Test Design – 42 Test Goals
 
 The following test goals were configured in RovaAI. Expected behaviours below describe the intended validation; actual outcomes are recorded separately in the [execution report](../04-test-execution/execution-report.md).
 
@@ -63,10 +63,37 @@ This is a documentation recommendation only. The live RovaAI test goal has not b
 
 The configured expected outcome covers refresh behaviour only, although the goal title also refers to navigation. Back and Forward navigation were checked manually as a follow-up; consider adding them to the expected result if the goal is revised.
 
+## Suite D – Search, Filters & Sorting (10)
+
+Test goal titles and expected outcomes are recorded as configured in RovaAI. The live RovaAI suite has not been changed.
+
+| ID | Test goal | Expected behaviour (as configured in RovaAI) |
+|---|---|---|
+| SFS-01 | Search by valid product keyword | Relevant products are displayed for the entered keyword. |
+| SFS-02 | Show search suggestions while typing | Relevant search suggestions are displayed and can be selected. |
+| SFS-03 | Handle searches with no matching products | A clear no-results message or appropriate alternative suggestions are displayed without errors. |
+| SFS-04 | Search using multiple keywords | Search results reflect the entered product terms and display relevant products. |
+| SFS-05 | Filter search results by category | Selecting a category filter updates the results to show products belonging to that category. |
+| SFS-06 | Filter products by minimum and maximum price | Products displayed fall within the selected price range, where matching products are available. |
+| SFS-07 | Sort products by price low to high | Search results are ordered by ascending product price. |
+| SFS-08 | Sort products by price high to low | Search results are ordered by descending product price. |
+| SFS-09 | Apply multiple filters together | Search results satisfy all selected filters where matching products are available. |
+| SFS-10 | Clear applied search filters | Clearing selected filters removes their restrictions and restores the unfiltered search results. |
+
+### SFS-09 – Coverage clarification
+
+The original goal and expected outcome are preserved above. The scenario did not distinguish between:
+
+- combining two or more brand filters (multiple values within the same filter type); and
+- combining a brand filter with a different filter type (for example, Brand plus Shipped From).
+
+These combinations behaved differently during manual verification (see the [execution report](../04-test-execution/execution-report.md)). In a future test-design revision, separate them into distinct test scenarios, each with its own expected result, so that a pass for one combination cannot be read as coverage of the other. This is a documentation recommendation only; the live RovaAI test goal has not been edited.
+
 ## Coverage and traceability notes
 
 - The earlier historical Core suite run was incomplete (7 passed, 1 failed, 2 pending). The later execution evidence includes a complete run, but its shared report lists the CSF-08 category-navigation goal twice with conflicting outcomes. Refer to the [execution report](../04-test-execution/execution-report.md) for the reconciliation.
 - NEC-03 is a UI-level robustness scenario, not a substitute for dedicated security testing.
 - NEC-10 is intentionally limited to authentication behaviour. No purchase or payment flow is performed.
 - Suite C (PDS-01 to PDS-10) uses live Daraz.lk listings, so the products selected by RovaAI can differ between runs. PDS-08 and PDS-10 required manual follow-up to interpret the expected behaviour and to cover navigation actions the automated run did not perform.
+- Suite D (SFS-01 to SFS-10) also uses live Daraz.lk listings and filter values. SFS-05 and SFS-07 were confirmed manually because the automated evidence was limited, and SFS-09 required manual verification of multi-brand filtering.
 - Test-case expected behaviour should be based on an agreed requirement and the actual interface, not an assumed control label or layout.

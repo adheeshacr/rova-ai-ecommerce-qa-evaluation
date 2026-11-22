@@ -2,11 +2,11 @@
 
 ## 1. Evaluation context
 
-RovaAI was used to execute 32 distinct natural-language test goals across three e-commerce suites on Daraz.lk. The evaluation considered workflow coverage, browser interaction, result reporting and the interpretation of failed or blocked executions.
+RovaAI was used to execute 42 distinct natural-language test goals across four e-commerce suites on Daraz.lk. The evaluation considered workflow coverage, browser interaction, result reporting and the interpretation of failed or blocked executions.
 
 ## 2. Observed strengths
 
-- Supported execution of a 10-goal core shopping suite, a 12-goal negative and edge-case suite and a 10-goal product details and selection suite.
+- Supported execution of a 10-goal core shopping suite, a 12-goal negative and edge-case suite, a 10-goal product details and selection suite and a 10-goal search, filters and sorting suite.
 - Produced individual result pages, suite-level run summaries and a shareable suite report.
 - Supported browser-based checks of search, product discovery, authentication and quantity controls.
 - Made it possible to inspect execution steps and retain run-specific evidence links.
@@ -27,6 +27,12 @@ These are observations from this project, not a general benchmark of RovaAI agai
 | One retry occurred for Suite 3 goal PDS-08 | The first attempt is not shown as a separate result record, so its observations cannot be reviewed afterwards | Note retries when monitoring; record any notable live agent reasoning at the time |
 | PDS-08 required manual interpretation of the expected behaviour | RovaAI passed a goal whose configured wording ("cannot be selected") did not match the observed design (selectable, but purchase prevented) | Manually verify ambiguous passes and revise the expected result |
 | PDS-10 could not use browser toolbar or refresh shortcuts | The automated run reloaded by navigating to the same URL and did not test Back/Forward | Follow up manually; the manual check also used browser commands because toolbar interaction was unavailable |
+| SFS-09 passed although two brand filters were not verified together | An automated pass can be misleading when the test does not validate the full expected behaviour; RovaAI's final check used Brand plus Shipped From, which works, while manual checks showed a second brand replaces the first | Verify each combination named or implied by the goal; split brand + brand and brand + other filter into separate scenarios |
+| SFS-05 and SFS-07 passed with thin automated evidence | A page heading and four prices were enough for RovaAI to report a pass | Confirm thin passes manually; both were confirmed |
+| SFS-10 had an automation interaction failure followed by recovery | One step failed on element selection; the agent recovered and completed the check | Review step timelines, not only the final status |
+| Suite 4 used zero retries | No retry attempts were available; all ten goals completed on the first attempt | Record the retry setting with each run, as it differed from Suite 3 (one retry) |
+| All ten Suite 4 goals showed Draft status before execution | The goals were still executable | As for Suite 3, do not treat Draft status as blocking |
+| Advanced Configuration showed optional device emulation | No device profile was shown as active; the run used a desktop layout | Record the active device or viewport setting with each run |
 
 ## 4. Quality of evidence and interpretation
 
@@ -38,9 +44,13 @@ A UI-level test using SQL-injection-style text cannot establish backend security
 
 ### Suite 3 execution context
 
-Suite 3 was monitored and its evidence reviewed using the Claude desktop app's built-in browser, because the Chrome browser extension was not connected at the time. This did not affect the RovaAI execution itself, which ran in RovaAI's own Chromium environment.
+Suite 3 was monitored and its evidence reviewed using a separate built-in browser, because the Chrome browser extension was not connected at the time. This did not affect the RovaAI execution itself, which ran in RovaAI's own Chromium environment.
 
 RovaAI reported all ten Suite 3 goals as passed. Automated pass status alone did not establish complete coverage: PDS-08 needed human interpretation of the expected result, and PDS-10's automated run did not exercise Back/Forward navigation or a true browser refresh. Both were followed up manually, as recorded in the [execution report](../04-test-execution/execution-report.md).
+
+### Suite 4 execution context
+
+RovaAI reported all ten Suite 4 goals as passed in 9 minutes 11 seconds with zero retries. SFS-09 shows how an automated pass can be misleading when the test does not validate the full expected behaviour: RovaAI tested a brand plus a shipping-location filter, but did not adequately verify two brands together. Manual verification of that combination failed against the current expected result. SFS-05 and SFS-07 passed with thin automated evidence and required manual checks to confirm them. Details are in the [execution report](../04-test-execution/execution-report.md).
 
 ## 5. Overall assessment
 
@@ -55,5 +65,6 @@ This evaluation does not claim that RovaAI replaces all manual or code-based tes
 - Capture and review evidence for responsive viewports and category navigation.
 - Add dedicated API tests only after identifying supported endpoints and authorization.
 - Plan a separate performance-testing exercise with defined workloads and measurable service-level expectations.
+- Split SFS-09 into separate brand + brand and brand + other-filter scenarios, and clarify whether multi-brand selection is required, before any future Suite 4 rerun.
 - Revise the PDS-08 expected result and consider adding Back/Forward navigation to PDS-10 before any future Suite 3 rerun.
 - Expand regression coverage after the initial functional baseline is stable.
