@@ -8,6 +8,7 @@ This page provides direct access to the completed RovaAI suite runs, individual 
 |---|---|---|
 | Core Shopping Flow Validation | [Run page](https://app.rova.qa/suites/runs/40b15ceb-bcee-4873-831a-29606391b785) · [Shared report](https://app.rova.qa/reports/share/40b15ceb-bcee-4873-831a-29606391b785?type=suite) | Shared report: 11 executions, 10 passed, 1 failed (90.91%). A separate run-statistics panel previously supplied showed 10 passed, 0 failed. See reconciliation note below. |
 | Negative & Edge Case Scenarios | [Open RovaAI run](https://app.rova.qa/suites/runs/02b1a04f-71b3-4cdf-ac8b-0e67f5620b13) | 12 executions, 10 passed, 2 failed, 0 pending; 100% completion. |
+| Product Details & Product Selection | [Open RovaAI run](https://app.rova.qa/suites/runs/48f0f4d5-be13-46e5-8057-1512967b0ba9) | 10 executions, 10 passed, 0 failed, 0 pending; 100% completion; 33 minutes 12 seconds. RovaAI pass status only; see manual follow-up below. |
 
 ### Core report reconciliation
 
@@ -32,6 +33,32 @@ The shared Core report contains 11 execution records, although the suite contain
 | NEC-10 | [View result](https://app.rova.qa/results/081a3c5d-16e8-4b44-bf81-4cba2c042c72) |
 | NEC-11 | [View result](https://app.rova.qa/results/8004e787-b318-4371-acd5-33313ce8da89) |
 | NEC-12 | [View result](https://app.rova.qa/results/92bb44fc-a57b-43ff-900d-91a88f956b3f) |
+
+## Product Details & Product Selection – individual results
+
+| Test ID | RovaAI result |
+|---|---|
+| PDS-01 | [View result](https://app.rova.qa/results/d6a64272-5db4-4877-836c-a11fcddfc011) |
+| PDS-02 | [View result – listing capacity mismatch observed](https://app.rova.qa/results/26bac08d-5513-41bc-a3e9-086732bd7b14) |
+| PDS-03 | [View result](https://app.rova.qa/results/c4491d49-9bee-4fd4-bdfb-ffb3a1bda296) |
+| PDS-04 | [View result](https://app.rova.qa/results/20c8228d-b29c-401b-90e9-7ad0839a2119) |
+| PDS-05 | [View result](https://app.rova.qa/results/95a11997-64c1-4c62-be24-5ee433b8eb03) |
+| PDS-06 | [View result](https://app.rova.qa/results/f92d7223-75ff-41b5-b618-dc31bc869077) |
+| PDS-07 | [View result](https://app.rova.qa/results/10e1af60-fc2f-4d32-8c6a-f9a2d3c24367) |
+| PDS-08 | [View result – passed after one retry; manual follow-up](https://app.rova.qa/results/0f3a5cf9-7ddd-460e-a726-1f76ce49bb84) |
+| PDS-09 | [View result](https://app.rova.qa/results/66c1f7ee-d705-4119-8ff1-e9a74066e4a2) |
+| PDS-10 | [View result – manual follow-up](https://app.rova.qa/results/eb77910c-761d-4e2c-9338-8b1279ff6d25) |
+
+Each Suite 3 result page includes the agent's step timeline and a video recording within RovaAI.
+
+### Suite 3 manual follow-up references (22 November 2026)
+
+| Goal | Page checked | Outcome |
+|---|---|---|
+| PDS-08 | [Kadam school shoe – Daraz.lk](https://www.daraz.lk/products/kadam-i593311645-s2722822221.html) (size US 8) | Selectable; "Out of stock" shown, quantity locked at 0, Buy Now and Add to Cart unavailable. |
+| PDS-10 | Daraz.lk homepage Flash Sale → [Aspor A396 power bank – Daraz.lk](https://www.daraz.lk/products/aspor-a396-20000mah-power-bank-with-pd-charging-capacity-20000-mah-225w-lcd-digital-display-iq-output-i1771175744-s12960787380.html) | Back, Forward and page reload verified using browser commands. |
+
+Screenshots were captured during the manual follow-up but have not been added to this repository. Daraz.lk pages are live and may change after the verification date. Findings are documented in the [execution report](../04-test-execution/execution-report.md) and the [observations log](../05-defect-management/observations-and-investigation.md).
 
 ## Video evidence
 
