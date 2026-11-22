@@ -61,7 +61,7 @@ The two Negative & Edge Case failures were blocked by an Alibaba Cloud WAF inter
 
 This is a black-box evaluation of selected Daraz.lk user-facing workflows, not a full security, API, performance, accessibility or production-readiness assessment. No checkout or payment was completed. Logged-out Add to Cart / Buy Now checks were limited to verifying the authentication prompt or redirect.
 
-Results are specific to the recorded test sessions and environment; they are not a guarantee of overall application quality. Manual verification screenshots for Suite 3 are stored in the evidence folder; RovaAI reports, replay links and manual reproduction links are indexed in the evidence file.
+Results are specific to the recorded test sessions and environment; they are not a guarantee of overall application quality. Manual verification screenshots for Suites 3 and 4 are stored in the evidence folder; RovaAI reports, replay links and manual reproduction links are indexed in the evidence file.
 
 ---
 *Prepared as a hands-on QA portfolio project. Test outcomes and reporting limitations are stated against the linked RovaAI evidence.*

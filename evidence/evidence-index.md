@@ -96,7 +96,13 @@ Each Suite 4 result page includes the agent's step timeline and a video recordin
 | SFS-09 | [UGREEN + Andoer – Daraz.lk](https://www.daraz.lk/ugreen--andoer/?q=phone) | URL contains both brands; only Andoer applied. |
 | SFS-09 | [Sanrio + Disney – Daraz.lk](https://www.daraz.lk/sanrio--disney/?q=phone) | URL contains both brands; only Disney applied. |
 
-Screenshots of the SFS-09 manual check were captured during verification but have not been added to this repository. Daraz.lk pages are live and may change after the verification date. Findings are documented in the [execution report](../04-test-execution/execution-report.md) and the [observations log](../05-defect-management/observations-and-investigation.md).
+SFS-09 manual verification screenshots:
+
+- [SFS-09 – UGREEN selected for "phone"](S4-G09-1-ugreen-selected.jpg)
+- [SFS-09 – Andoer added after UGREEN: URL contains both brands, only Andoer applied](S4-G09-2-ugreen-then-andoer-only-andoer-applied.jpg)
+- [SFS-09 – Disney added after Sanrio: only Disney applied (9 items)](S4-G09-3-sanrio-then-disney-only-disney-applied.jpg)
+
+Daraz.lk pages are live and may change after the verification date. Findings are documented in the [execution report](../04-test-execution/execution-report.md) and the [observations log](../05-defect-management/observations-and-investigation.md).
 
 ## Video evidence
 
@@ -106,6 +112,6 @@ Screenshots of the SFS-09 manual check were captured during verification but hav
 ## Evidence handling notes
 
 - RovaAI links are external and may require an authenticated session.
-- Suite 3 manual verification screenshots are stored in the evidence folder.
+- Suite 3 and Suite 4 manual verification screenshots are stored in the evidence folder.
 - Evidence should be added only when genuine, relevant and free of credentials, personal information or payment details.
 - Test result pages, shared suite reports and recordings are the primary traceability references for this iteration.
