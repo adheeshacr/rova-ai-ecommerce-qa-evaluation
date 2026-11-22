@@ -1,13 +1,20 @@
 # Evidence Index
 
-This page provides direct access to the completed RovaAI suite runs and the individual results available for the Negative & Edge Case suite.
+This page provides direct access to the completed RovaAI suite runs, individual results and available execution replays.
 
 ## Suite-level evidence
 
-| Suite | Run summary | Recorded result |
+| Suite | Evidence | Reported outcome |
 |---|---|---|
-| Core Shopping Flow Validation | [Open RovaAI run](https://app.rova.qa/suites/runs/40b15ceb-bcee-4873-831a-29606391b785) | 10 passed, 0 failed, 0 pending; 100% completion |
-| Negative & Edge Case Scenarios | [Open RovaAI run](https://app.rova.qa/suites/runs/02b1a04f-71b3-4cdf-ac8b-0e67f5620b13) | 10 passed, 2 failed, 0 pending; 100% completion |
+| Core Shopping Flow Validation | [Run page](https://app.rova.qa/suites/runs/40b15ceb-bcee-4873-831a-29606391b785) · [Shared report](https://app.rova.qa/reports/share/40b15ceb-bcee-4873-831a-29606391b785?type=suite) | Shared report: 11 executions, 10 passed, 1 failed (90.91%). A separate run-statistics panel previously supplied showed 10 passed, 0 failed. See reconciliation note below. |
+| Negative & Edge Case Scenarios | [Open RovaAI run](https://app.rova.qa/suites/runs/02b1a04f-71b3-4cdf-ac8b-0e67f5620b13) | 12 executions, 10 passed, 2 failed, 0 pending; 100% completion. |
+
+### Core report reconciliation
+
+The shared Core report contains 11 execution records, although the suite contains 10 distinct test goals. The category-dropdown test appears twice: one passed result (749.3 seconds) and one failed result (894.0 seconds, 44 steps). A separate run-statistics panel supplied earlier showed 10/10 passed. Both source summaries are retained rather than silently selecting one. The detailed failed replay did not find the dropdown trigger expected by the test in the tested UI; this is treated as a test-design / requirement mismatch pending clarification, not a confirmed application defect.
+
+- [Passed category-dropdown result](https://app.rova.qa/results/f6894067-22ac-42fa-a2f2-db8e69f1aa5a)
+- [Failed category-dropdown execution replay](https://rova-storage.s3.us-west-2.amazonaws.com/rova/web/c7bff371-c60a-4f43-8a07-7ee71e5c3a15/videos/video-4cd7767f-9c0f-4e0c-8c8c-668f25fc6c4f-1795248240611.webm)
 
 ## Negative & Edge Case – individual results
 
@@ -26,19 +33,14 @@ This page provides direct access to the completed RovaAI suite runs and the indi
 | NEC-11 | [View result](https://app.rova.qa/results/8004e787-b318-4371-acd5-33313ce8da89) |
 | NEC-12 | [View result](https://app.rova.qa/results/92bb44fc-a57b-43ff-900d-91a88f956b3f) |
 
-## Core Shopping Flow – individual evidence
-
-The complete suite-level run summary is available above. Individual result URLs from the earlier historical run are not used as evidence for the later completed run. Refer to the current RovaAI suite report for the per-goal details.
-
 ## Video evidence
 
-A replay link is available for NEC-01:
-
-[Open NEC-01 execution replay](https://rova-storage.s3.us-west-2.amazonaws.com/rova/web/c7bff371-c60a-4f43-8a07-7ee71e5c3a15/videos/video-7debea8d-e92c-4794-9617-3b876c87ab9d-1795236023043.webm)
+- [NEC-01 execution replay](https://rova-storage.s3.us-west-2.amazonaws.com/rova/web/c7bff371-c60a-4f43-8a07-7ee71e5c3a15/videos/video-7debea8d-e92c-4794-9617-3b876c87ab9d-1795236023043.webm)
+- [CSF-08 failed category-dropdown replay](https://rova-storage.s3.us-west-2.amazonaws.com/rova/web/c7bff371-c60a-4f43-8a07-7ee71e5c3a15/videos/video-4cd7767f-9c0f-4e0c-8c8c-668f25fc6c4f-1795248240611.webm)
 
 ## Evidence handling notes
 
 - RovaAI links are external and may require an authenticated session.
 - No screenshots have been embedded in this repository yet.
-- Evidence should be added only when it is genuine, relevant and does not expose credentials, personal information or payment details.
-- Test result pages and recordings are the primary traceability references for this iteration.
+- Evidence should be added only when genuine, relevant and free of credentials, personal information or payment details.
+- Test result pages, shared suite reports and recordings are the primary traceability references for this iteration.
