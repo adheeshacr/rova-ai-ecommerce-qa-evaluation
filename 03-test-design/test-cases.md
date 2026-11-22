@@ -1,4 +1,4 @@
-# Test Design – 22 Test Goals
+# Test Design – 32 Test Goals
 
 The following test goals were configured in RovaAI. Expected behaviours below describe the intended validation; actual outcomes are recorded separately in the [execution report](../04-test-execution/execution-report.md).
 
@@ -34,9 +34,39 @@ The following test goals were configured in RovaAI. Expected behaviours below de
 | NEC-11 | Navigation to non-existent product URL | An invalid product URL produces an appropriate not-found experience. |
 | NEC-12 | Rapid repeated login submissions | Repeated rapid actions do not cause duplicate submission errors or an unstable page. |
 
+## Suite C – Product Details & Product Selection (10)
+
+Test goal titles and expected outcomes are recorded as configured in RovaAI. The live RovaAI suite has not been changed.
+
+| ID | Test goal | Expected behaviour (as configured in RovaAI) |
+|---|---|---|
+| PDS-01 | Verify product detail page opens successfully | Selecting a product from a listing opens the correct product detail page without errors. |
+| PDS-02 | Verify product title and description are displayed correctly | The product title and description are visible, readable and relevant to the selected product. |
+| PDS-03 | Verify product image gallery functionality | Product images load successfully, and users can navigate between available images. |
+| PDS-04 | Verify product price and discount information | The current price, original price and discount information are displayed consistently when applicable. |
+| PDS-05 | Verify product ratings and customer reviews section | Available ratings, review counts and customer reviews are displayed without broken content. |
+| PDS-06 | Verify seller information section | Seller name and available seller information are displayed and accessible. |
+| PDS-07 | Verify product variation options | Available options such as size, colour or model are displayed, and users can select an available variation. |
+| PDS-08 | Verify unavailable product variations cannot be selected | Out-of-stock or unavailable variations are clearly identified and cannot be selected as available options. |
+| PDS-09 | Verify product availability and stock information | Product availability information is displayed clearly and reflects the selected product or variation where applicable. |
+| PDS-10 | Verify product detail page navigation and browser refresh behaviour | Refreshing the product page does not cause a broken page, and the selected product remains accessible. |
+
+### PDS-08 – Recommended revised expected result
+
+Manual follow-up showed that Daraz.lk allows an out-of-stock size to be selected and then prevents purchase, rather than blocking selection of the size itself (see the [execution report](../04-test-execution/execution-report.md)). The configured wording "cannot be selected" therefore does not match the observed design. The recommended revised expected result for documentation and any future suite revision is:
+
+> Unavailable variations are clearly identified as out of stock when selected, and cannot be added to the cart or purchased.
+
+This is a documentation recommendation only. The live RovaAI test goal has not been edited.
+
+### PDS-10 – Coverage note
+
+The configured expected outcome covers refresh behaviour only, although the goal title also refers to navigation. Back and Forward navigation were checked manually as a follow-up; consider adding them to the expected result if the goal is revised.
+
 ## Coverage and traceability notes
 
 - The earlier historical Core suite run was incomplete (7 passed, 1 failed, 2 pending). The later execution evidence includes a complete run, but its shared report lists the CSF-08 category-navigation goal twice with conflicting outcomes. Refer to the [execution report](../04-test-execution/execution-report.md) for the reconciliation.
 - NEC-03 is a UI-level robustness scenario, not a substitute for dedicated security testing.
 - NEC-10 is intentionally limited to authentication behaviour. No purchase or payment flow is performed.
+- Suite C (PDS-01 to PDS-10) uses live Daraz.lk listings, so the products selected by RovaAI can differ between runs. PDS-08 and PDS-10 required manual follow-up to interpret the expected behaviour and to cover navigation actions the automated run did not perform.
 - Test-case expected behaviour should be based on an agreed requirement and the actual interface, not an assumed control label or layout.
