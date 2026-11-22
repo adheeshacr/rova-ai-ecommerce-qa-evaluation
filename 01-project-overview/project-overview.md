@@ -47,12 +47,12 @@ The application was tested as a black box. Internal source code, service impleme
 
 ## 5. Deliverables
 
-The repository documents the project approach, 22 test goals across two suites, execution results, evidence links, and an evaluation of the testing platform's observed limitations.
+The repository documents the project approach, 32 test goals across three suites, execution results, evidence links, and an evaluation of the testing platform's observed limitations.
 
 ## 6. Success criteria
 
 - All selected test goals are represented in the test design.
-- Both suites reach 100% execution completion.
+- All three suites reach 100% execution completion.
 - Raw tool statuses are preserved.
 - Inconclusive outcomes are clearly separated from confirmed product defects.
 - Evidence links and run-level summaries are provided for review.
