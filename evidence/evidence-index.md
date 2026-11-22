@@ -58,7 +58,13 @@ Each Suite 3 result page includes the agent's step timeline and a video recordin
 | PDS-08 | [Kadam school shoe – Daraz.lk](https://www.daraz.lk/products/kadam-i593311645-s2722822221.html) (size US 8) | Selectable; "Out of stock" shown, quantity locked at 0, Buy Now and Add to Cart unavailable. |
 | PDS-10 | Daraz.lk homepage Flash Sale → [Aspor A396 power bank – Daraz.lk](https://www.daraz.lk/products/aspor-a396-20000mah-power-bank-with-pd-charging-capacity-20000-mah-225w-lcd-digital-display-iq-output-i1771175744-s12960787380.html) | Back, Forward and page reload verified using browser commands. |
 
-Screenshots were captured during the manual follow-up but have not been added to this repository. Daraz.lk pages are live and may change after the verification date. Findings are documented in the [execution report](../04-test-execution/execution-report.md) and the [observations log](../05-defect-management/observations-and-investigation.md).
+Manual verification screenshots:
+
+- [PDS-08 – size US 7 default, in stock](G08-1-size7-default-in-stock.jpg)
+- [PDS-08 – size US 8 selected, out of stock](G08-2-size8-selected-out-of-stock.jpg)
+- [PDS-10 – homepage Flash Sale before opening product](G10-1-homepage-flash-sale-before.jpg)
+- [PDS-10 – listing after Back](G10-2-after-back-listing-restored.jpg)
+- [PDS-10 – product page after Forward and reload](G10-3-product-after-forward-and-reload.jpg) Daraz.lk pages are live and may change after the verification date. Findings are documented in the [execution report](../04-test-execution/execution-report.md) and the [observations log](../05-defect-management/observations-and-investigation.md).
 
 ## Video evidence
 
@@ -68,6 +74,6 @@ Screenshots were captured during the manual follow-up but have not been added to
 ## Evidence handling notes
 
 - RovaAI links are external and may require an authenticated session.
-- No screenshots have been embedded in this repository yet.
+- Suite 3 manual verification screenshots are stored in the evidence folder.
 - Evidence should be added only when genuine, relevant and free of credentials, personal information or payment details.
 - Test result pages, shared suite reports and recordings are the primary traceability references for this iteration.
